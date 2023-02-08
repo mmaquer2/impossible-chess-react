@@ -1,46 +1,32 @@
-/*
 import React from 'react';
-//import Link from "next/link";
-//import { useRouter } from "next/router";
 import { useState } from "react";
 import { FaTwitter } from 'react-icons/fa';
 
 export default function Header() {
-    const router = useRouter();
-    const currentRoute = router.pathname;
-
-    const [isActive, setActive] = useState(false);
-
-    const toggleClass = () => {
-        setActive(!isActive);
-    };
     return (
-        <header className="header">
-            <div className='container'>
-                <div className="header__logo">
-                    <Link href="/">
-                        <span className='header__logo__text'>Impossible Chess</span>
-                    </Link>
+        <>
+            <div className='header__ad'>AD HERE</div>
+            <header className="header">
+                <div className='container'>
+                    <div className="header__logo">
+                        <a href="/">
+                            <span className='header__logo__text'>Impossible Chess</span>
+                        </a>
+                    </div>
+                    <ul className="header__list">
+                        <li className="header__item">
+                            <a className='header__link' href="/about">
+                                About
+                            </a>
+                        </li>
+                        <li className="header__item">
+                            <a className="header__link" href="https://twitter.com/intent/tweet?text=Look%20how%20hard%20this%20Chess%20game%20is%3A%20impossiblechess.com.%20%23chess%20%23impossiblechess" target="_blank" rel="nofollow">
+                                <FaTwitter /> Share on Twitter
+                            </a>
+                        </li>
+                    </ul>
                 </div>
-                <ul className="header__list">
-                    <li className="header__item">
-                        <Link className="header__link" href="https://twitter.com/impossiblechess">
-                            <FaTwitter /> Share on Twitter
-                        </Link>
-                    </li>
-                    <li className="header__item">
-                        <Link className={currentRoute === "/about" ? "header__link active" : "header__link"} href="/about">
-                            About
-                        </Link>
-                    </li>
-                    <li className="header__item">
-                        <Link className={currentRoute === "/faq" ? "header__link active" : "header__link"} href="/faq">
-                            FAQ
-                        </Link>
-                    </li>
-                </ul>
-            </div>
-        </header>
+            </header>
+        </>
     );
 }
-*/

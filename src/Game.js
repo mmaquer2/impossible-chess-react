@@ -1,16 +1,19 @@
 import React, { Component } from "react";
 import Chessboard from "chessboardjsx";
 
-// import Header from "./Header";
-// import Footer from "/components/Footer";
+import Header from "./Header";
+import Footer from "./Footer";
 
 import Leaderboard from "./Leaderboard";
 import StockFish from "./integrations/Stockfish.js";
+
+import { VscDebugRestart } from 'react-icons/vsc';
 
 class Game extends Component {
   render() {
     return (
       <>
+        <Header />
         <section className="chess">
           <div className="container">
             <div className="chess__container">
@@ -18,10 +21,11 @@ class Game extends Component {
                 <div className="chess__header">
                   <div className="chess__header__meta">
                     <span className="chess__gm"> GM </span>
-                    <span className="chess__stockfish">Stockfish</span>
+                    <span className="chess__stockfish">🤖 Impossiblebot</span>
                     <span className="chess__rating">(3532)</span>
                   </div>
                   <div className="chess__header__turns">
+                    <button><VscDebugRestart /> Restart Game</button>
                     <span className="silent">Turns: </span>13
                   </div>
                 </div>
@@ -31,7 +35,7 @@ class Game extends Component {
                       <Chessboard
                         id="stockfish"
                         position={position}
-                        width={500}
+                        width={600}
                         onDrop={onDrop}
                         boardStyle={boardStyle}
                         orientation="black"
@@ -54,6 +58,7 @@ class Game extends Component {
             <Leaderboard />
           </div>
         </section>
+        <Footer />
       </>
     );
   }
