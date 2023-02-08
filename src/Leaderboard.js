@@ -1,14 +1,25 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "@firebase/firestore";
-import { doc, setDoc, getDoc } from "firebase/firestore";
+import { doc, getDoc } from "firebase/firestore";
 import { firebaseConfig } from "./firebase-config";
 import { useState, useEffect } from "react";
 
 export default function Leaderboard() {
   const [leaderboard, setLeaderboard] = useState([]);
-  const app = initializeApp(firebaseConfig); // Initialize Firebase
-  const db = getFirestore(app);
+
+  useEffect(() => {
+    const app = initializeApp(firebaseConfig); // Initialize Firebase
+    const db = getFirestore(app);
+    const fetchData = async () => {
+      const leaderboardDocRef = doc(db, "leaderboard", "scores"); // get Reference to the leaderboard collection
+      const docSnap = await getDoc(leaderboardDocRef); // get the leaderboard data
+      console.log("leaderboard data fetched successfully");
+      setLeaderboard(docSnap.data()["data"]); // set leaderboard state
+    };
+
+    fetchData().catch(console.error);
+  }, []);
 
   let test_data = [
     {
@@ -28,36 +39,17 @@ export default function Leaderboard() {
     },
   ];
 
-  //fetch_leaderboard_data();
-
-  async function fetch_leaderboard_data() {
-    const leaderboardDocRef = doc(db, "leaderboard", "scores"); // get Reference to the leaderboard collection
-    const docSnap = await getDoc(leaderboardDocRef); // get the leaderboard data
-    setLeaderboard(docSnap.data()["data"]); // set leaderboard state
-    console.log(leaderboard);
-  }
-
-  function print_leaderboard_data() {
-    leaderboard.forEach((el) => {
-      console.log(el["user_name"]);
-      console.log(el["score"]);
-    });
-  }
-
   /*
-    // add these buttons to the DOM to test database connection
+         {leaderboard.forEach((el) => {
+              return (
+                <tr key={el.user_name}>
+                  <td>{el.user_name}</td>
+                  <td>{el.turns_played}</td>
+                  <td>1/31/23</td>
+                </tr>
 
-
-        {test_data.map((el) =>
-           <tr> 
-            <th>{el["user_name"]}</th>
-            <th>{el["turns_played"]}</th>
-            <th>{el["game_data"]}</th>   
-          </tr>
-        )}
-         
-
-    
+              )
+            })}
   */
 
   return (
@@ -67,11 +59,13 @@ export default function Leaderboard() {
           <h3>Leaderboard</h3>
         </div>
         <table className="chess__leaderboard__list">
-          <tr>
-            <th>Username</th>
-            <th>Turns</th>
-            <th>Date</th>
-          </tr>
+          <thead>
+            <tr>
+              <th>Username</th>
+              <th>Turns</th>
+              <th>Date</th>
+            </tr>
+          </thead>
 
           {test_data.map((el, index) => (
             <tr key={index}>
@@ -82,8 +76,6 @@ export default function Leaderboard() {
           ))}
         </table>
       </div>
-      <button onClick={print_leaderboard_data}> Test Print Data </button>
-      <button onClick={fetch_leaderboard_data}> Test Fetch Data </button>
     </>
   );
 }

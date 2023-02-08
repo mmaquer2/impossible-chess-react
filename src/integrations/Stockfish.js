@@ -1,28 +1,26 @@
-import { Component } from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Chess } from "chess.js"; // import Chess from  "chess.js"(default) if recieving an error about new Chess not being a constructor
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "@firebase/firestore";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { firebaseConfig } from "../firebase-config";
-import React from "react";
+
 const STOCKFISH = window.STOCKFISH;
 const game = new Chess();
 
 class Stockfish extends Component {
   static propTypes = { children: PropTypes.func };
 
-  state = { fen: "start", moveHistory: [], turnCount: 0 };
-  app = initializeApp(firebaseConfig); // Initialize Firebase
-  db = getFirestore(this.app);
+  moveHistory = [];
+  turnCount = 0;
+
+  state = { fen: "start", c_history: this.moveHistory, turnCount: 0 };
 
   componentDidMount() {
     this.setState({ fen: game.fen(), moveHistory: [], turnCount: 0 });
     this.engineGame().prepareMove();
   }
-
-  moveHistory = []
-  turnCount = 0;
 
   set_game_turn_data() {
     let history = game.history({ verbose: true });
@@ -39,7 +37,7 @@ class Stockfish extends Component {
           " " +
           elm.to
       );
-      
+
       this.moveHistory.push(new_move);
 
       // if the size of the move history is even then we need the turn count by one
@@ -51,15 +49,17 @@ class Stockfish extends Component {
     });
 
     // testing to print the entire move history list
-    this.moveHistory.map((elm, ind) => {
-      console.log(" move " + ind + " " + elm);
-    });
+    // this.moveHistory.map((elm, ind) => {
+    // console.log(" move " + ind + " " + elm);
+    // });
   }
 
   async post_user_result() {
+    const app = initializeApp(firebaseConfig); // Initialize Firebase
+    const db = getFirestore(app);
     const today = new Date();
 
-    let new_record = {
+    const new_record = {
       user_name: "test2",
       score: 103,
       turns_played: 5,
@@ -70,28 +70,28 @@ class Stockfish extends Component {
     // get the latest version of the leaderboard data
     const leaderboardDocRef = doc(this.db, "leaderboard", "scores"); // get Reference to the leaderboard collection
     const docSnap = await getDoc(leaderboardDocRef);
-    const data = docSnap.data();
+    const leaderboardData = docSnap.data();
 
     // add the user socre to the list of scores
-    data["data"].push(new_record);
-
-    console.log(data);
+    leaderboardData["data"].push(new_record);
+    //console.log(leaderboardData);
 
     // update the document in the firebase database
-    /*
-      await setDoc(doc(db, "leaderboard", "data"), {
-          leaderboardData    
-        })
-        .then(()=>{console.log("updated leaderboard db successfully");})
-        .catch((error) => { console.log(error)
+    await setDoc(doc(db, "leaderboard", "data"), {
+      leaderboardData,
+    })
+      .then(() => {
+        console.log("updated leaderboard db successfully");
       })
-    */
+      .catch((error) => {
+        console.log(error);
+      });
   }
 
   onDrop = ({ sourceSquare, targetSquare }) => {
     try {
       // see if the move is legal
-      const move = game.move({
+      game.move({
         from: sourceSquare,
         to: targetSquare,
         promotion: "q",
@@ -99,12 +99,11 @@ class Stockfish extends Component {
 
       // TODO: update the move data
       //this.set_game_turn_data(); // set the game turn data
-      
+
       return new Promise((resolve) => {
         this.setState({ fen: game.fen() });
         resolve();
       }).then(() => this.engineGame().prepareMove());
-    
     } catch (error) {
       console.log(error);
       if (game.isGameOver()) {
@@ -123,7 +122,7 @@ class Stockfish extends Component {
   engineGame = (options) => {
     options = options || {};
 
-    /// We can load Stockfish via Web Workers or via STOCKFISH() if loaded from a <script> tag.
+    /// initialize the stockfish engine
     let engine =
       typeof STOCKFISH === "function"
         ? STOCKFISH()
@@ -136,10 +135,7 @@ class Stockfish extends Component {
     let time = { wtime: 3000, btime: 3000, winc: 1500, binc: 1500 };
     let playerColor = "black";
     let clockTimeoutID = null;
-    // let isEngineRunning = false;
     let announced_game_over;
-    // do not pick up pieces if the game is over
-    // only pick up pieces for White
 
     setInterval(function () {
       if (announced_game_over) {
@@ -148,12 +144,13 @@ class Stockfish extends Component {
 
       if (game.isGameOver()) {
         announced_game_over = true;
+        console.log("GAME OVER YOU LOSE"); // when the game is over open the modal to enter the username and post to the leaderboard
+      } else if (game.isCheck()) {
+        console.log("king is in check");
       }
     }, 500);
 
     function uciCmd(cmd, which) {
-      // console.log('UCI: ' + cmd);
-
       (which || engine).postMessage(cmd);
     }
     uciCmd("uci");
