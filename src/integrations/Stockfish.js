@@ -1,39 +1,126 @@
-import{ Component } from "react";
+import { Component } from "react";
 import PropTypes from "prop-types";
 import { Chess } from "chess.js"; // import Chess from  "chess.js"(default) if recieving an error about new Chess not being a constructor
-import React from 'react';
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "@firebase/firestore";
+import { doc, setDoc, getDoc } from "firebase/firestore";
+import { firebaseConfig } from "../firebase-config";
+import React from "react";
 const STOCKFISH = window.STOCKFISH;
 const game = new Chess();
 
 class Stockfish extends Component {
   static propTypes = { children: PropTypes.func };
 
-  state = { fen: "start" };
+  state = { fen: "start", moveHistory: [], turnCount: 0 };
+  app = initializeApp(firebaseConfig); // Initialize Firebase
+  db = getFirestore(this.app);
 
   componentDidMount() {
-    this.setState({ fen: game.fen() });
-    console.log("set")
+    this.setState({ fen: game.fen(), moveHistory: [], turnCount: 0 });
     this.engineGame().prepareMove();
   }
 
-  onDrop = ({ sourceSquare, targetSquare }) => {
-    // see if the move is legal
-    const move = game.move({
-      from: sourceSquare,
-      to: targetSquare,
-      promotion: "q"
+  moveHistory = []
+  turnCount = 0;
+
+  set_game_turn_data() {
+    let history = game.history({ verbose: true });
+    history.forEach((elm) => {
+      let new_move =
+        elm.color + " " + elm.piece + " " + elm.from + " " + elm.to;
+      console.log(
+        "new move: " +
+          elm.color +
+          " " +
+          elm.piece +
+          " " +
+          elm.from +
+          " " +
+          elm.to
+      );
+      
+      this.moveHistory.push(new_move);
+
+      // if the size of the move history is even then we need the turn count by one
+      if (this.moveHistory.length % 2 === 0) {
+        this.turnCount = this.turnCount + 1;
+      }
+
+      console.log("turn count is: " + this.turnCount);
     });
 
-    // illegal move
-    if (move === null) return;
+    // testing to print the entire move history list
+    this.moveHistory.map((elm, ind) => {
+      console.log(" move " + ind + " " + elm);
+    });
+  }
 
-    return new Promise(resolve => {
-      this.setState({ fen: game.fen() });
-      resolve();
-    }).then(() => this.engineGame().prepareMove());
+  async post_user_result() {
+    const today = new Date();
+
+    let new_record = {
+      user_name: "test2",
+      score: 103,
+      turns_played: 5,
+      didWin: false,
+      game_date: today,
+    };
+
+    // get the latest version of the leaderboard data
+    const leaderboardDocRef = doc(this.db, "leaderboard", "scores"); // get Reference to the leaderboard collection
+    const docSnap = await getDoc(leaderboardDocRef);
+    const data = docSnap.data();
+
+    // add the user socre to the list of scores
+    data["data"].push(new_record);
+
+    console.log(data);
+
+    // update the document in the firebase database
+    /*
+      await setDoc(doc(db, "leaderboard", "data"), {
+          leaderboardData    
+        })
+        .then(()=>{console.log("updated leaderboard db successfully");})
+        .catch((error) => { console.log(error)
+      })
+    */
+  }
+
+  onDrop = ({ sourceSquare, targetSquare }) => {
+    try {
+      // see if the move is legal
+      const move = game.move({
+        from: sourceSquare,
+        to: targetSquare,
+        promotion: "q",
+      });
+
+      // TODO: update the move data
+      //this.set_game_turn_data(); // set the game turn data
+      
+      return new Promise((resolve) => {
+        this.setState({ fen: game.fen() });
+        resolve();
+      }).then(() => this.engineGame().prepareMove());
+    
+    } catch (error) {
+      console.log(error);
+      if (game.isGameOver()) {
+        console.log("king in checkmate the game is over, you have lost!");
+      } else if (game.isCheck()) {
+        console.log("A player cannot move: a king is in check state");
+      } else if (game.turn() !== "b") {
+        console.log("you cannot move because its not your turn");
+      } else {
+        console.log("you have an attempted an invalid move");
+      }
+      return;
+    }
   };
 
-  engineGame = options => {
+  engineGame = (options) => {
     options = options || {};
 
     /// We can load Stockfish via Web Workers or via STOCKFISH() if loaded from a <script> tag.
@@ -54,7 +141,7 @@ class Stockfish extends Component {
     // do not pick up pieces if the game is over
     // only pick up pieces for White
 
-    setInterval(function() {
+    setInterval(function () {
       if (announced_game_over) {
         return;
       }
@@ -157,7 +244,7 @@ class Stockfish extends Component {
       }
     };
 
-    evaler.onmessage = function(event) {
+    evaler.onmessage = function (event) {
       let line;
 
       if (event && typeof event === "object") {
@@ -178,7 +265,7 @@ class Stockfish extends Component {
       }
     };
 
-    engine.onmessage = event => {
+    engine.onmessage = (event) => {
       let line;
 
       if (event && typeof event === "object") {
@@ -232,7 +319,7 @@ class Stockfish extends Component {
     };
 
     return {
-      start: function() {
+      start: function () {
         uciCmd("ucinewgame");
         uciCmd("isready");
         engineStatus.engineReady = false;
@@ -240,17 +327,16 @@ class Stockfish extends Component {
         prepareMove();
         announced_game_over = false;
       },
-      prepareMove: function() {
+      prepareMove: function () {
         prepareMove();
-      }
+      },
     };
   };
-
-  //return this.props.children({ position: fen, onDrop: this.onDrop });
   render() {
     const { fen } = this.state;
-    return React.cloneElement(this.props.children({ position: fen, onDrop: this.onDrop }));
-    
+    return React.cloneElement(
+      this.props.children({ position: fen, onDrop: this.onDrop }) // pass game AI data to render to the chessboard component
+    );
   }
 }
 

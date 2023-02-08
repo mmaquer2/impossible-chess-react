@@ -2,13 +2,10 @@
 
 ## Available Scripts
 
-
 ### Usage
 
 ```javascript
-    npm install . 
+    npm install .
     npm start
-    
-```
- 
 
+```
