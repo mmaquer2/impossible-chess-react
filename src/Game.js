@@ -22,7 +22,7 @@ class Game extends Component {
                   <div className="chess__header__meta">
                     <span className="chess__gm"> GM </span>
                     <span className="chess__stockfish">🤖 Impossiblebot</span>
-                    <span className="chess__rating">(3532)</span>
+                    <span className="chess__rating">(3500)</span>
                   </div>
                   <div className="chess__header__turns">
                     <button><VscDebugRestart /> Restart Game</button>
