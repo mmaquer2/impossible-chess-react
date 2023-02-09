@@ -11,6 +11,8 @@
 ```javascript
     npm install . 
     npm start
+
+    npx prettier --write . 
 ```
 
 

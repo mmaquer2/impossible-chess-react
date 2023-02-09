@@ -1,11 +1,6 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Chess } from "chess.js"; // import Chess from  "chess.js"(default) if recieving an error about new Chess not being a constructor
-import { initializeApp } from "firebase/app";
-import { getFirestore } from "@firebase/firestore";
-import { doc, setDoc, getDoc } from "firebase/firestore";
-import { firebaseConfig } from "../firebase-config";
-import { DateTime } from "luxon";
 
 const STOCKFISH = window.STOCKFISH;
 const game = new Chess();
@@ -81,43 +76,6 @@ class Stockfish extends Component {
     let clockTimeoutID = null;
     let announced_game_over;
 
-
-    async function postResult() {
-      const app = initializeApp(firebaseConfig); // Initialize Firebase
-      const db = getFirestore(app);
-      const dt = DateTime.now();
-      let today = dt.toLocaleString();
-      
-      let turns = this.turnCount;
-
-      const new_record = {
-        user_name: "lazyday2",
-        score: this.turnCount,
-        turns_played: this.turns,
-        didWin: false,
-        game_date: today,
-      };
-  
-      // get the latest version of the leaderboard data
-      const leaderboardDocRef = doc(db, "leaderboard", "scores"); // get Reference to the leaderboard collection
-      const docSnap = await getDoc(leaderboardDocRef);
-      const leaderboardData = docSnap.data();
-      leaderboardData["data"].push(new_record); // add the user socre to the list of scores
-      console.log(leaderboardData);
-  
-      // update the document in the firebase database
-  
-      await setDoc(doc(db, "leaderboard", "data"), {
-        leaderboardData,
-      })
-        .then(() => {
-          console.log("updated leaderboard db successfully");
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    }
-
     setInterval(function () {
       if (announced_game_over) {
         return;
@@ -126,7 +84,9 @@ class Stockfish extends Component {
       if (game.isGameOver()) {
         announced_game_over = true;
         console.log("GAME OVER YOU LOSE"); // when the game is over open the modal to enter the username and post to the leaderboard
-        postResult();
+        
+        // TODO: open the modal to post username here
+
       } else if (game.isCheck()) {
         console.log("king is in check");
       }

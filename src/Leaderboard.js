@@ -22,21 +22,15 @@ export default function Leaderboard() {
 
   useEffect(() => {
     const app = initializeApp(firebaseConfig); // Initialize Firebase
-    const db = getFirestore(app);
-    const fetchData = async () => {
+      const db = getFirestore(app);
+      const fetchData = async () => {
       const leaderboardDocRef = doc(db, "leaderboard", "data"); // get Reference to the leaderboard collection
       const docSnap = await getDoc(leaderboardDocRef); // get the leaderboard data
-      
-      //console.log("leaderboard data fetched successfully");
-      //console.log(docSnap.data()["leaderboardData"])
-
-      // sort the list by the highest turn score
-
-      let temp = docSnap.data()["leaderboardData"]["data"]
-      
-      temp.sort(GetSortOrder("turns_played")).reverse();
-
-      setLeaderboard(temp); // set leaderboard state
+      console.log("leaderboard data fetched successfully");
+        // sort the list by the highest turn score
+        const data = docSnap.data()["leaderboardData"]["data"]
+        data.sort(GetSortOrder("turns_played")).reverse();
+        setLeaderboard(data); // set leaderboard state
       
     };
 
