@@ -17,7 +17,7 @@ export default function ScoreTable({ data }) {
             <tr key={index}>
               <td>{el["user_name"]}</td>
               <td>{el["turns_played"]}</td>
-              <td>1/31/22</td>
+              <td>{el["game_date"]}</td>
             </tr>
           ))}
         </table>

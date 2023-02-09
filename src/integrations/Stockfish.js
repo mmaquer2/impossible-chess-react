@@ -23,67 +23,6 @@ class Stockfish extends Component {
     this.engineGame().prepareMove();
   }
 
-  set_game_turn_data() {
-    let history = game.history({ verbose: true });
-    history.forEach((elm) => {
-      let new_move =
-        elm.color + " " + elm.piece + " " + elm.from + " " + elm.to;
-      console.log(
-        "new move: " +
-          elm.color +
-          " " +
-          elm.piece +
-          " " +
-          elm.from +
-          " " +
-          elm.to
-      );
-
-      this.moveHistory.push(new_move);
-
-      // if the size of the move history is even then we need the turn count by one
-      if (this.moveHistory.length % 2 === 0) {
-        this.turnCount = this.turnCount + 1;
-      }
-
-      console.log("turn count is: " + this.turnCount);
-    });
-  }
-
-  async postResult() {
-    const app = initializeApp(firebaseConfig); // Initialize Firebase
-    const db = getFirestore(app);
-    const dt = DateTime.now();
-    let today = dt.toLocaleString();
-
-    const new_record = {
-      user_name: "lazyday",
-      score: 103,
-      turns_played: 5,
-      didWin: false,
-      game_date: today,
-    };
-
-    // get the latest version of the leaderboard data
-    const leaderboardDocRef = doc(this.db, "leaderboard", "scores"); // get Reference to the leaderboard collection
-    const docSnap = await getDoc(leaderboardDocRef);
-    const leaderboardData = docSnap.data();
-    leaderboardData["data"].push(new_record); // add the user socre to the list of scores
-    console.log(leaderboardData);
-
-    // update the document in the firebase database
-
-    await setDoc(doc(db, "leaderboard", "data"), {
-      leaderboardData,
-    })
-      .then(() => {
-        console.log("updated leaderboard db successfully");
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }
-
   onDrop = ({ sourceSquare, targetSquare }) => {
     try {
       // see if the move is legal
@@ -93,8 +32,17 @@ class Stockfish extends Component {
         promotion: "q",
       });
 
-      // TODO: update the move data
-      //this.set_game_turn_data(); // set the game turn data
+    
+      console.log("human: " + sourceSquare + " " + targetSquare)
+      
+      let new_move = "Human: " + sourceSquare + " " + targetSquare
+      this.moveHistory.push(new_move);
+      
+      if (this.moveHistory.length % 2 === 0) {
+        this.turnCount = this.turnCount + 1;
+      }
+      console.log("turn count is: " + this.turnCount);
+      // update move history and turn counter from player moves
 
       return new Promise((resolve) => {
         this.setState({ fen: game.fen() });
@@ -133,6 +81,43 @@ class Stockfish extends Component {
     let clockTimeoutID = null;
     let announced_game_over;
 
+
+    async function postResult() {
+      const app = initializeApp(firebaseConfig); // Initialize Firebase
+      const db = getFirestore(app);
+      const dt = DateTime.now();
+      let today = dt.toLocaleString();
+      
+      let turns = this.turnCount;
+
+      const new_record = {
+        user_name: "lazyday2",
+        score: this.turnCount,
+        turns_played: this.turns,
+        didWin: false,
+        game_date: today,
+      };
+  
+      // get the latest version of the leaderboard data
+      const leaderboardDocRef = doc(db, "leaderboard", "scores"); // get Reference to the leaderboard collection
+      const docSnap = await getDoc(leaderboardDocRef);
+      const leaderboardData = docSnap.data();
+      leaderboardData["data"].push(new_record); // add the user socre to the list of scores
+      console.log(leaderboardData);
+  
+      // update the document in the firebase database
+  
+      await setDoc(doc(db, "leaderboard", "data"), {
+        leaderboardData,
+      })
+        .then(() => {
+          console.log("updated leaderboard db successfully");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+
     setInterval(function () {
       if (announced_game_over) {
         return;
@@ -141,7 +126,7 @@ class Stockfish extends Component {
       if (game.isGameOver()) {
         announced_game_over = true;
         console.log("GAME OVER YOU LOSE"); // when the game is over open the modal to enter the username and post to the leaderboard
-        this.postResult();
+        postResult();
       } else if (game.isCheck()) {
         console.log("king is in check");
       }
@@ -278,11 +263,23 @@ class Stockfish extends Component {
         if (match) {
           // isEngineRunning = false;
           game.move({ from: match[1], to: match[2], promotion: match[3] });
-
+          
           // AI Makes Move Here
-          console.log("AI MOVED");
-
+          console.log("AI: " + match[1] + " " + match[2]);
+          
           this.setState({ fen: game.fen() });
+      
+
+          let new_move = "AI: " + match[1] + " " + match[2]
+          this.moveHistory.push(new_move);
+          
+          if (this.moveHistory.length % 2 === 0) {
+            this.turnCount = this.turnCount + 1;
+          }
+          console.log("turn count is: " + this.turnCount);
+          
+          //postResult()
+
           prepareMove();
           uciCmd("eval", evaler);
           //uciCmd("eval");

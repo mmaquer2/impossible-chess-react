@@ -8,14 +8,36 @@ import ScoreTable from "./ScoreTable";
 export default function Leaderboard() {
   const [leaderboard, setLeaderboard] = useState([]);
 
+  function GetSortOrder(prop) {    
+    return function(a, b) {    
+        if (a[prop] > b[prop]) {    
+            return 1;    
+        } else if (a[prop] < b[prop]) {    
+            return -1;    
+        }    
+        return 0;    
+    }    
+  } 
+
+
   useEffect(() => {
     const app = initializeApp(firebaseConfig); // Initialize Firebase
     const db = getFirestore(app);
     const fetchData = async () => {
-      const leaderboardDocRef = doc(db, "leaderboard", "scores"); // get Reference to the leaderboard collection
+      const leaderboardDocRef = doc(db, "leaderboard", "data"); // get Reference to the leaderboard collection
       const docSnap = await getDoc(leaderboardDocRef); // get the leaderboard data
-      console.log("leaderboard data fetched successfully");
-      setLeaderboard(docSnap.data()["data"]); // set leaderboard state
+      
+      //console.log("leaderboard data fetched successfully");
+      //console.log(docSnap.data()["leaderboardData"])
+
+      // sort the list by the highest turn score
+
+      let temp = docSnap.data()["leaderboardData"]["data"]
+      
+      temp.sort(GetSortOrder("turns_played")).reverse();
+
+      setLeaderboard(temp); // set leaderboard state
+      
     };
 
     fetchData().catch(console.error);
