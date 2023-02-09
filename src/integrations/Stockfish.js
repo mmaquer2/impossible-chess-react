@@ -5,6 +5,7 @@ import { initializeApp } from "firebase/app";
 import { getFirestore } from "@firebase/firestore";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { firebaseConfig } from "../firebase-config";
+import { DateTime } from "luxon";
 
 const STOCKFISH = window.STOCKFISH;
 const game = new Chess();
@@ -47,20 +48,16 @@ class Stockfish extends Component {
 
       console.log("turn count is: " + this.turnCount);
     });
-
-    // testing to print the entire move history list
-    // this.moveHistory.map((elm, ind) => {
-    // console.log(" move " + ind + " " + elm);
-    // });
   }
 
-  async post_user_result() {
+  async postResult() {
     const app = initializeApp(firebaseConfig); // Initialize Firebase
     const db = getFirestore(app);
-    const today = new Date();
+    const dt = DateTime.now();
+    let today = dt.toLocaleString();
 
     const new_record = {
-      user_name: "test2",
+      user_name: "lazyday",
       score: 103,
       turns_played: 5,
       didWin: false,
@@ -71,12 +68,11 @@ class Stockfish extends Component {
     const leaderboardDocRef = doc(this.db, "leaderboard", "scores"); // get Reference to the leaderboard collection
     const docSnap = await getDoc(leaderboardDocRef);
     const leaderboardData = docSnap.data();
-
-    // add the user socre to the list of scores
-    leaderboardData["data"].push(new_record);
-    //console.log(leaderboardData);
+    leaderboardData["data"].push(new_record); // add the user socre to the list of scores
+    console.log(leaderboardData);
 
     // update the document in the firebase database
+
     await setDoc(doc(db, "leaderboard", "data"), {
       leaderboardData,
     })
@@ -145,6 +141,7 @@ class Stockfish extends Component {
       if (game.isGameOver()) {
         announced_game_over = true;
         console.log("GAME OVER YOU LOSE"); // when the game is over open the modal to enter the username and post to the leaderboard
+        this.postResult();
       } else if (game.isCheck()) {
         console.log("king is in check");
       }
@@ -281,6 +278,10 @@ class Stockfish extends Component {
         if (match) {
           // isEngineRunning = false;
           game.move({ from: match[1], to: match[2], promotion: match[3] });
+
+          // AI Makes Move Here
+          console.log("AI MOVED");
+
           this.setState({ fen: game.fen() });
           prepareMove();
           uciCmd("eval", evaler);

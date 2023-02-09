@@ -1,15 +1,17 @@
 import React, { Component } from "react";
 import Chessboard from "chessboardjsx";
-
 import Header from "./Header";
 import Footer from "./Footer";
-
 import Leaderboard from "./Leaderboard";
 import StockFish from "./integrations/Stockfish.js";
-
-import { VscDebugRestart } from 'react-icons/vsc';
+import { Chess } from "chess.js";
+import { VscDebugRestart } from "react-icons/vsc";
 
 class Game extends Component {
+  reset_game() {
+    console.log("game has been reset");
+  }
+
   render() {
     return (
       <>
@@ -25,7 +27,9 @@ class Game extends Component {
                     <span className="chess__rating">(3500)</span>
                   </div>
                   <div className="chess__header__turns">
-                    <button><VscDebugRestart /> Restart Game</button>
+                    <button>
+                      <VscDebugRestart onClick={this.reset_game} /> Restart Game
+                    </button>
                     <span className="silent">Turns: </span>13
                   </div>
                 </div>

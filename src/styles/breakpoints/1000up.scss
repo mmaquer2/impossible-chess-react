@@ -1,44 +1,44 @@
 .header {
-    .container {
-        display: flex;
+  .container {
+    display: flex;
 
-        .header__logo {
-            padding: 0;
-            span {
-                font-size: 1.125rem;
-            }
-        }
-
-        .header__list {
-            .header__item {
-                .header__link {
-                    font-size: 15px;
-                    margin-left: 2rem;
-                    margin-right: 0;
-                }
-            }
-        }
+    .header__logo {
+      padding: 0;
+      span {
+        font-size: 1.125rem;
+      }
     }
+
+    .header__list {
+      .header__item {
+        .header__link {
+          font-size: 15px;
+          margin-left: 2rem;
+          margin-right: 0;
+        }
+      }
+    }
+  }
 }
 
 .chess {
-    .chess__container {
-        display: grid;
-        grid-template-columns: 2fr 1fr;
-        grid-template-rows: 1fr;
-        grid-column-gap: 2rem;
-        grid-row-gap: 0px;
-    }
+  .chess__container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: 1fr;
+    grid-column-gap: 2rem;
+    grid-row-gap: 0px;
+  }
 }
 
 .footer {
-    .footer__list {
-        display: flex;
+  .footer__list {
+    display: flex;
 
-        .footer__list__item {
-            .footer__list__link {
-                display: flex;
-            }
-        }
+    .footer__list__item {
+      .footer__list__link {
+        display: flex;
+      }
     }
+  }
 }
