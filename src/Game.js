@@ -8,11 +8,9 @@ import { Chess } from "chess.js";
 import { VscDebugRestart } from "react-icons/vsc";
 
 class Game extends Component {
-
   //turnCount = 0;
   //moveHistory = []
   //game = new Chess();
-
 
   reset_game() {
     console.log("game has been reset");

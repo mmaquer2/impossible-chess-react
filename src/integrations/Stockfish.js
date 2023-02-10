@@ -27,12 +27,11 @@ class Stockfish extends Component {
         promotion: "q",
       });
 
-    
-      console.log("human: " + sourceSquare + " " + targetSquare)
-      
-      let new_move = "Human: " + sourceSquare + " " + targetSquare
+      console.log("human: " + sourceSquare + " " + targetSquare);
+
+      let new_move = "Human: " + sourceSquare + " " + targetSquare;
       this.moveHistory.push(new_move);
-      
+
       if (this.moveHistory.length % 2 === 0) {
         this.turnCount = this.turnCount + 1;
       }
@@ -84,9 +83,8 @@ class Stockfish extends Component {
       if (game.isGameOver()) {
         announced_game_over = true;
         console.log("GAME OVER YOU LOSE"); // when the game is over open the modal to enter the username and post to the leaderboard
-        
-        // TODO: open the modal to post username here
 
+        // TODO: open the modal to post username here
       } else if (game.isCheck()) {
         console.log("king is in check");
       }
@@ -223,21 +221,20 @@ class Stockfish extends Component {
         if (match) {
           // isEngineRunning = false;
           game.move({ from: match[1], to: match[2], promotion: match[3] });
-          
+
           // AI Makes Move Here
           console.log("AI: " + match[1] + " " + match[2]);
-          
-          this.setState({ fen: game.fen() });
-      
 
-          let new_move = "AI: " + match[1] + " " + match[2]
+          this.setState({ fen: game.fen() });
+
+          let new_move = "AI: " + match[1] + " " + match[2];
           this.moveHistory.push(new_move);
-          
+
           if (this.moveHistory.length % 2 === 0) {
             this.turnCount = this.turnCount + 1;
           }
           console.log("turn count is: " + this.turnCount);
-          
+
           //postResult()
 
           prepareMove();
