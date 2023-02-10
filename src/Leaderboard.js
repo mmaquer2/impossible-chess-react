@@ -27,7 +27,7 @@ export default function Leaderboard() {
       const docSnap = await getDoc(leaderboardDocRef); // get the leaderboard data
       console.log("leaderboard data fetched successfully");
       // sort the list by the highest turn score
-      const data = docSnap.data()["leaderboardData"]["data"];
+      const data = docSnap.data()["scores"]
       data.sort(GetSortOrder("turns_played")).reverse();
       setLeaderboard(data); // set leaderboard state
     };

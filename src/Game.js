@@ -6,6 +6,8 @@ import Leaderboard from "./Leaderboard";
 import StockFish from "./integrations/Stockfish.js";
 import { Chess } from "chess.js";
 import { VscDebugRestart } from "react-icons/vsc";
+import Modal from "./modal";
+import Welcome from "./welcome";
 
 class Game extends Component {
   //turnCount = 0;
@@ -64,6 +66,8 @@ class Game extends Component {
               </div>
             </div>
             <Leaderboard />
+            <Modal />
+            <Welcome />
           </div>
         </section>
         <Footer />
