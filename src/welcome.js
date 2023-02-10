@@ -1,42 +1,40 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
+import React from "react";
+import Modal from "react-modal";
+
+const customStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+  },
+};
+
+Modal.setAppElement("#root");
 
 export default function Welcome() {
-  const [open, setOpen] = React.useState(false);
+  const [modalIsOpen, setIsOpen] = React.useState(false);
+  function openModal() {
+    setIsOpen(true);
+  }
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
+  function closeModal() {
+    setIsOpen(false);
+  }
 
   return (
     <div>
-      <Button variant="outlined" onClick={handleClickOpen}>
-        Open Welcome Dialog
-      </Button>
-      <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Welcome! </DialogTitle>
-        <DialogContent>
-          <DialogContentText>
-           Welcome to Impossible chess
-          </DialogContentText>
-
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Start Game</Button>
-          
-        </DialogActions>
-      </Dialog>
+      <button onClick={openModal}>Open Welcome Modal</button>
+      <Modal
+        isOpen={modalIsOpen}
+        onRequestClose={closeModal}
+        contentLabel="Welcome Modal"
+        style={customStyles}
+      >
+        <p>Hello world</p>
+      </Modal>
     </div>
   );
-
 }

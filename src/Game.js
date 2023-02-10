@@ -6,7 +6,7 @@ import Leaderboard from "./Leaderboard";
 import StockFish from "./integrations/Stockfish.js";
 import { Chess } from "chess.js";
 import { VscDebugRestart } from "react-icons/vsc";
-import Modal from "./modal";
+import Modal from "./postGameModal";
 import Welcome from "./welcome";
 
 class Game extends Component {
