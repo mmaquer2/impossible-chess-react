@@ -5,14 +5,17 @@ import { firebaseConfig } from "./firebase-config";
 import { DateTime } from "luxon";
 import React from "react";
 import Modal from "react-modal";
+import { MdClose } from "react-icons/md";
+import { FacebookShareButton, FacebookIcon, TwitterShareButton, TwitterIcon } from 'react-share';
 
 const customStyles = {
   content: {
-    top: "50%",
+    top: "45%",
     left: "50%",
     right: "auto",
     bottom: "auto",
     marginRight: "-50%",
+    height: "200%",
     transform: "translate(-50%, -50%)",
   },
 };
@@ -89,21 +92,41 @@ export default function PostGameModal({ userScore }) {
         onRequestClose={closeModal}
         contentLabel="Game Over Modal"
         style={customStyles}
+        className='modal'
       >
-        <label>
-          Enter Username:
-          <input
-            type="text"
-            name="name"
-            onChange={(e) => {
-              handle_username(e.target.value);
-            }}
-          />
-        </label>
-
-        <button onClick={closeModal}>Submit Username</button>
-
-        <button onClick={closeModal}>Close</button>
+        <div className="modal__container">
+          <h3 className="red">GAME OVER</h3>
+          <h3>You got checkmated!</h3>
+          <p>You lasted 15 moves.</p>
+          <form>
+            <input
+              type="text"
+              name="name"
+              placeholder="Type in a username"
+              onChange={(e) => {
+                handle_username(e.target.value);
+              }}
+            />
+            <button onClick={closeModal}>Submit</button>
+          </form>
+          <small>By clicking Submit, you agree to our <a href="/privacy-policy">privacy policy</a>.</small>
+          <h4>Share on social media</h4>
+          <div className="modal__social">
+            <FacebookShareButton
+              url={'impossiblechess.com'}
+              quote={'Impossible Chess'}
+              hashtag="#chess"
+            >
+              <FacebookIcon size={42} round />
+            </FacebookShareButton>
+            <TwitterShareButton
+              url={'impossiblechess.com #chess #impossiblechess'}
+            >
+              <TwitterIcon size={42} round />
+            </TwitterShareButton>
+          </div>
+          <a className="close" onClick={closeModal}><MdClose /></a>
+        </div>
       </Modal>
     </div>
   );
