@@ -15,6 +15,11 @@ export default function Header() {
           </div>
           <ul className="header__list">
             <li className="header__item">
+              <a className="header__link" href="/leaderboard">
+                Leaderboard
+              </a>
+            </li>
+            <li className="header__item">
               <a className="header__link" href="/about">
                 About
               </a>
