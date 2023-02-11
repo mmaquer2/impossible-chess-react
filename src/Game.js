@@ -4,12 +4,13 @@ import Header from "./Header";
 import Footer from "./Footer";
 import Leaderboard from "./Leaderboard";
 import StockFish from "./integrations/Stockfish.js";
-import { Chess } from "chess.js";
 import { VscDebugRestart } from "react-icons/vsc";
 import Modal from "./postGameModal";
 import Welcome from "./welcome";
+import { ToastContainer, toast } from 'react-toastify';
 
 class Game extends Component {
+
   //turnCount = 0;
   //moveHistory = []
   //game = new Chess();
@@ -32,16 +33,18 @@ class Game extends Component {
                     <span className="chess__stockfish">🤖 Impossiblebot</span>
                     <span className="chess__rating">(3500)</span>
                   </div>
-                  <div className="chess__header__turns">
+               
+                </div>
+                <div>
+                  <StockFish>
+                    {({ position, onDrop , turns, history }) => (
+                      <>
+                         <div className="chess__header__turns">
                     <button>
                       <VscDebugRestart onClick={this.reset_game} /> Restart Game
                     </button>
-                    <span className="silent">Turns: </span>13
+                    <span className="silent">Turns: </span><p>{turns}</p>
                   </div>
-                </div>
-                <div style={boardsContainer}>
-                  <StockFish>
-                    {({ position, onDrop }) => (
                       <Chessboard
                         id="stockfish"
                         position={position}
@@ -50,20 +53,30 @@ class Game extends Component {
                         boardStyle={boardStyle}
                         orientation="black"
                       />
+                          <div className="chess__moves">
+                    <div className="chess__moves__header">
+                      <h3>Recent moves</h3>
+                    </div>
+                    <div className="chess__moves__list">
+                      <ul>
+                      
+                      {history.map((el, index) => (          
+                        <li key = {index}>{el}</li>
+                        ))}
+
+                      </ul>
+                    </div>
+                  </div>
+                      
+                      
+                      </>
+                    
+
                     )}
                   </StockFish>
                 </div>
               </div>
-              <div className="chess__moves">
-                <div className="chess__moves__header">
-                  <h3>Recent moves</h3>
-                </div>
-                <div className="chess__moves__list">
-                  <ul>
-                    <li>e4</li>
-                  </ul>
-                </div>
-              </div>
+             
             </div>
             <Leaderboard />
             <Modal />

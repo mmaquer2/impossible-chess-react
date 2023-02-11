@@ -1,20 +1,33 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Chess } from "chess.js"; // import Chess from  "chess.js"(default) if recieving an error about new Chess not being a constructor
+import { ToastContainer, toast } from 'react-toastify';
 
 const STOCKFISH = window.STOCKFISH;
 const game = new Chess();
 
-class Stockfish extends Component {
-  static propTypes = { children: PropTypes.func };
 
+//TODO: add ToastContainer and notify when game is in check state
+
+const notify = () => toast.error('King is in Check!', {
+                                position: "top-right",
+                                autoClose: 1300,
+                                hideProgressBar: false,
+                                closeOnClick: true,
+                                pauseOnHover: true,
+                                draggable: true,
+                                progress: undefined,
+                                theme: "dark",
+                                });
+
+class Stockfish extends Component {
+  
   moveHistory = [];
   turnCount = 0;
-
-  state = { fen: "start", c_history: this.moveHistory, turnCount: 0 };
+  state = { fen: "start", turnCount: 0, moveHistory: [] };
 
   componentDidMount() {
-    this.setState({ fen: game.fen(), moveHistory: [], turnCount: 0 });
+    this.setState({ fen: game.fen(), turnCount: 0, moveHistory: []});
     this.engineGame().prepareMove();
   }
 
@@ -28,16 +41,19 @@ class Stockfish extends Component {
       });
 
       console.log("human: " + sourceSquare + " " + targetSquare);
-
       let new_move = "Human: " + sourceSquare + " " + targetSquare;
-      this.moveHistory.push(new_move);
+      let tempHistory = this.state.moveHistory
+      tempHistory.push(new_move); // update move history and turn counter from player moves
+      this.setState({moveHistory: tempHistory})
 
       if (this.moveHistory.length % 2 === 0) {
-        this.turnCount = this.turnCount + 1;
+        let newTurns = this.state.turnCount + 1;
+        this.setState({ fen: game.fen(), turnCount: newTurns });
+        console.log(this.state.turnCount)
+      
       }
-      console.log("turn count is: " + this.turnCount);
-      // update move history and turn counter from player moves
-
+      console.log(this.state.moveHistory)
+     
       return new Promise((resolve) => {
         this.setState({ fen: game.fen() });
         resolve();
@@ -47,6 +63,7 @@ class Stockfish extends Component {
       if (game.isGameOver()) {
         console.log("king in checkmate the game is over, you have lost!");
       } else if (game.isCheck()) {
+       
         console.log("A player cannot move: a king is in check state");
       } else if (game.turn() !== "b") {
         console.log("you cannot move because its not your turn");
@@ -85,7 +102,10 @@ class Stockfish extends Component {
         console.log("GAME OVER YOU LOSE"); // when the game is over open the modal to enter the username and post to the leaderboard
 
         // TODO: open the modal to post username here
+
+
       } else if (game.isCheck()) {
+        notify();
         console.log("king is in check");
       }
     }, 500);
@@ -223,19 +243,19 @@ class Stockfish extends Component {
           game.move({ from: match[1], to: match[2], promotion: match[3] });
 
           // AI Makes Move Here
-          console.log("AI: " + match[1] + " " + match[2]);
-
+          
           this.setState({ fen: game.fen() });
 
+          console.log("AI: " + match[1] + " " + match[2]);
           let new_move = "AI: " + match[1] + " " + match[2];
-          this.moveHistory.push(new_move);
+          let tempHistory = this.state.moveHistory
+          tempHistory.push(new_move); // update move history and turn counter from player moves
+          this.setState({moveHistory: tempHistory})
 
           if (this.moveHistory.length % 2 === 0) {
             this.turnCount = this.turnCount + 1;
           }
-          console.log("turn count is: " + this.turnCount);
-
-          //postResult()
+          //console.log("turn count is: " + this.turnCount);
 
           prepareMove();
           uciCmd("eval", evaler);
@@ -267,7 +287,7 @@ class Stockfish extends Component {
           }
         }
       }
-      // displayStatus();
+     
     };
 
     return {
@@ -285,9 +305,9 @@ class Stockfish extends Component {
     };
   };
   render() {
-    const { fen } = this.state;
+    const { fen, turnCount, moveHistory } = this.state;
     return React.cloneElement(
-      this.props.children({ position: fen, onDrop: this.onDrop }) // pass game AI data to render to the chessboard component
+      this.props.children({ position: fen, onDrop: this.onDrop, turns: turnCount, history: moveHistory }) // pass game AI data to render to the chessboard component
     );
   }
 }
