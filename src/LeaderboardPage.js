@@ -36,5 +36,10 @@ export default function LeaderboardPage() {
 
   //TODO: add pagination
 
-  return <></>;
+  return
+  (<>
+    
+
+    </>
+    ) ;
 }

@@ -32,7 +32,7 @@ export default function PostGameModal({ finalScore }) {
   const [modalIsOpen, setIsOpen] = React.useState(false);
 
   useEffect(() => {
-    console.log("the game over modal is open");
+    //console.log("the game over modal is open");
     openModal();
   }, []);
 
@@ -92,9 +92,10 @@ export default function PostGameModal({ finalScore }) {
       });
   }
 
+  // Add this button into the dom for testing 
+  // <button onClick={openModal}>Open Game Over Modal</button>
   return (
     <div>
-      <button onClick={openModal}>Open Game Over Modal</button>
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}

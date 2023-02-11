@@ -8,7 +8,11 @@ import PostGameModal from "../postGameModal";
 const STOCKFISH = window.STOCKFISH;
 const game = new Chess();
 
-let shouldReset = false;
+let shouldReset = false; 
+
+// TODO: use this as a flag to indicate that a player has been notified of a signal
+
+let playerIsNotified = false;
 
 //TODO: add ToastContainer and notify when game is in check state
 
@@ -26,7 +30,6 @@ const notify = () =>
 
 class Stockfish extends Component {
 
-
   moveHistory = [];
   turnCount = 0;
   state = { fen: "start", turnCount: 0, moveHistory: [], isGameOver: false };
@@ -41,20 +44,11 @@ class Stockfish extends Component {
     this.engineGame().prepareMove();
   }
 
+  // function called when the restart game button is clicked
   resetGame() {
-    console.log("reset function called");
-    console.log("should reset: " + shouldReset);
     shouldReset = true;
-    console.log("should reset update: " + shouldReset);
-    /*
-    this.setState({
-      fen: game.reset(),
-      turnCount: 0,
-      moveHistory: [],
-      isGameOver: false,
-    });
-    */
   }
+
 
   onDrop = ({ sourceSquare, targetSquare }) => {
     try {
@@ -74,9 +68,9 @@ class Stockfish extends Component {
       if (this.moveHistory.length % 2 === 0) {
         let newTurns = this.state.turnCount + 1;
         this.setState({ fen: game.fen(), turnCount: newTurns });
-        console.log(this.state.turnCount);
+        //console.log(this.state.turnCount); // log turn count
       }
-      console.log(this.state.moveHistory);
+      //console.log(this.state.moveHistory); // log move history
 
       return new Promise((resolve) => {
         this.setState({ fen: game.fen() });
@@ -116,6 +110,26 @@ class Stockfish extends Component {
     let announced_game_over;
 
     setInterval(function () {
+    
+      if(shouldReset){
+        console.log("reset function called");
+
+          // TODO: reset game state when called 
+          /*
+            //fen.reset();
+            this.setState({
+              fen: "start",
+              turnCount: 0,
+              moveHistory: [],
+              isGameOver: false,
+            });
+            
+          */
+          
+
+        shouldReset = false;
+      }
+    
       if (announced_game_over) {
         return;
       }
@@ -258,24 +272,22 @@ class Stockfish extends Component {
         if (match) {
           // isEngineRunning = false;
           game.move({ from: match[1], to: match[2], promotion: match[3] });
-
+          
           // AI Makes Move Here
-
           this.setState({ fen: game.fen() });
           console.log("AI: " + match[1] + " " + match[2]);
           let new_move = "AI: " + match[1] + " " + match[2];
+          
           let tempHistory = this.state.moveHistory;
           tempHistory.push(new_move); // update move history and turn counter from player moves
           this.setState({ moveHistory: tempHistory });
-
           if (this.moveHistory.length % 2 === 0) {
             this.turnCount = this.turnCount + 1;
           }
-          //console.log("turn count is: " + this.turnCount);
-
+          
           if (game.isGameOver()) {
             announced_game_over = true;
-            console.log("GAME OVER YOU LOSE"); // when the game is over open the modal to enter the username and post to the leaderboard
+            //console.log("GAME OVER YOU LOSE"); // when the game is over open the modal to enter the username and post to the leaderboard
             this.setState({ isGameOver: true });
           }
 
@@ -328,19 +340,10 @@ class Stockfish extends Component {
 
   render() {
     const { fen, turnCount, moveHistory, isGameOver } = this.state; // get current version of state
-    console.log(isGameOver);
-    let GameOverModal;
+    let GameOverModal; // open game over modal when the game is complete
     if (isGameOver) {
       GameOverModal = <PostGameModal finalScore={turnCount} />;
-    } // open game over modal when the game is complete
-
-    // TODO: add should reset check here to reset the game state back to start..
-    console.log("reset in render:"+ shouldReset)
-    if(shouldReset){
-      console.log("reseting game state");
-      
-    }
-
+    } 
     return (
       <div>
         {" "}
