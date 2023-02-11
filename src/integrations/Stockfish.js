@@ -8,6 +8,8 @@ import PostGameModal from "../postGameModal";
 const STOCKFISH = window.STOCKFISH;
 const game = new Chess();
 
+let shouldReset = false;
+
 //TODO: add ToastContainer and notify when game is in check state
 
 const notify = () =>
@@ -23,10 +25,7 @@ const notify = () =>
   });
 
 class Stockfish extends Component {
-  constructor(props) {
-    super(props);
-    //console.log(props)
-  }
+
 
   moveHistory = [];
   turnCount = 0;
@@ -44,8 +43,9 @@ class Stockfish extends Component {
 
   resetGame() {
     console.log("reset function called");
-    //console.log(this.turnCount);
-
+    console.log("should reset: " + shouldReset);
+    shouldReset = true;
+    console.log("should reset update: " + shouldReset);
     /*
     this.setState({
       fen: game.reset(),
@@ -333,6 +333,13 @@ class Stockfish extends Component {
     if (isGameOver) {
       GameOverModal = <PostGameModal finalScore={turnCount} />;
     } // open game over modal when the game is complete
+
+    // TODO: add should reset check here to reset the game state back to start..
+    console.log("reset in render:"+ shouldReset)
+    if(shouldReset){
+      console.log("reseting game state");
+      
+    }
 
     return (
       <div>

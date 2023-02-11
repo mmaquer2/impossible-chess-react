@@ -41,7 +41,7 @@ export default function PostGameModal({ finalScore }) {
   }
 
   function closeModal() {
-    //TODO: error validation for the baad word and empty username field
+    //TODO: error validation for the bad word and empty username field
 
     if (username !== "") {
       postResult();
@@ -55,10 +55,6 @@ export default function PostGameModal({ finalScore }) {
   function handle_username(value) {
     ///console.log(value);
     setUsername(value);
-  }
-
-  function print_username(value) {
-    console.log(value);
   }
 
   async function postResult() {
