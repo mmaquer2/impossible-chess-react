@@ -3,10 +3,15 @@ import { getFirestore } from "@firebase/firestore";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { firebaseConfig } from "./firebase-config";
 import { DateTime } from "luxon";
-import React from "react";
+import React, { useEffect } from "react";
 import Modal from "react-modal";
 import { MdClose } from "react-icons/md";
-import { FacebookShareButton, FacebookIcon, TwitterShareButton, TwitterIcon } from 'react-share';
+import {
+  FacebookShareButton,
+  FacebookIcon,
+  TwitterShareButton,
+  TwitterIcon,
+} from "react-share";
 
 const customStyles = {
   content: {
@@ -22,20 +27,31 @@ const customStyles = {
 
 Modal.setAppElement("#root");
 
-export default function PostGameModal({ userScore }) {
+export default function PostGameModal({ isGameOver, finalScore }) {
   const [username, setUsername] = React.useState("");
   const [modalIsOpen, setIsOpen] = React.useState(false);
+
+  /*
+  useEffect(() => {
+    if(isGameOver === "true"){
+        openModal()
+    }
+  }, []);
+  */
 
   function openModal() {
     setIsOpen(true);
   }
 
   function closeModal() {
-    if (username != "") {
-      postResult();
-    }
+    //TODO: error validation for the baad word and empty username field
 
-    setIsOpen(false);
+    if (username !== "") {
+      postResult();
+      setIsOpen(false);
+    } else {
+      console.log("failed to post result to database");
+    }
   }
 
   function handle_username(value) {
@@ -48,23 +64,21 @@ export default function PostGameModal({ userScore }) {
   }
 
   async function postResult() {
-    console.log("yeet");
     const app = initializeApp(firebaseConfig); // Initialize Firebase
     const db = getFirestore(app);
     const dt = DateTime.now();
     let today = dt.toLocaleString();
 
-    //TODO: error validation for the baad word and empty username field
-
     const new_record = {
       user_name: username,
-      score: 13,
-      turns_played: 14,
+      score: finalScore,
+      turns_played: finalScore,
       didWin: false,
       game_date: today,
     };
 
-    //console.log("input username: " + username);
+    console.log("input username: " + username);
+    console.log("input score: " + finalScore);
 
     const leaderboardDocRef = doc(db, "leaderboard", "data"); // get Reference to the leaderboard collection
     const docSnap = await getDoc(leaderboardDocRef); // get the latest version of the leaderboard data
@@ -92,13 +106,13 @@ export default function PostGameModal({ userScore }) {
         onRequestClose={closeModal}
         contentLabel="Game Over Modal"
         style={customStyles}
-        className='modal'
+        className="modal"
         closeTimeoutMS={500}
       >
         <div className="modal__container">
           <h3 className="red">GAME OVER</h3>
           <h3>You got checkmated!</h3>
-          <p>You lasted 15 moves.</p>
+          <p>You lasted {finalScore} moves.</p>
           <form>
             <input
               type="text"
@@ -110,23 +124,28 @@ export default function PostGameModal({ userScore }) {
             />
             <button onClick={closeModal}>Submit</button>
           </form>
-          <small>By clicking Submit, you agree to our <a href="/privacy-policy">privacy policy</a>.</small>
+          <small>
+            By clicking Submit, you agree to our{" "}
+            <a href="/privacy-policy">privacy policy</a>.
+          </small>
           <h4>Share on social media</h4>
           <div className="modal__social">
             <FacebookShareButton
-              url={'impossiblechess.com'}
-              quote={'Impossible Chess'}
+              url={"impossiblechess.com"}
+              quote={"Impossible Chess"}
               hashtag="#chess"
             >
               <FacebookIcon size={42} round />
             </FacebookShareButton>
             <TwitterShareButton
-              url={'impossiblechess.com #chess #impossiblechess'}
+              url={"impossiblechess.com #chess #impossiblechess"}
             >
               <TwitterIcon size={42} round />
             </TwitterShareButton>
           </div>
-          <a className="close" onClick={closeModal}><MdClose /></a>
+          <a className="close" onClick={closeModal}>
+            <MdClose />
+          </a>
         </div>
       </Modal>
     </div>

@@ -23,10 +23,15 @@ const notify = () =>
 class Stockfish extends Component {
   moveHistory = [];
   turnCount = 0;
-  state = { fen: "start", turnCount: 0, moveHistory: [] };
+  state = { fen: "start", turnCount: 0, moveHistory: [], isGameOver: false };
 
   componentDidMount() {
-    this.setState({ fen: game.fen(), turnCount: 0, moveHistory: [] });
+    this.setState({
+      fen: game.fen(),
+      turnCount: 0,
+      moveHistory: [],
+      isGameOver: false,
+    });
     this.engineGame().prepareMove();
   }
 
@@ -96,11 +101,9 @@ class Stockfish extends Component {
 
       if (game.isGameOver()) {
         announced_game_over = true;
-        console.log("GAME OVER YOU LOSE"); // when the game is over open the modal to enter the username and post to the leaderboard
-
-        // TODO: open the modal to post username here
+        // note the game is over when this is reached
       } else if (game.isCheck()) {
-        notify();
+        //notify();
         console.log("king is in check");
       }
     }, 500);
@@ -240,7 +243,6 @@ class Stockfish extends Component {
           // AI Makes Move Here
 
           this.setState({ fen: game.fen() });
-
           console.log("AI: " + match[1] + " " + match[2]);
           let new_move = "AI: " + match[1] + " " + match[2];
           let tempHistory = this.state.moveHistory;
@@ -251,6 +253,12 @@ class Stockfish extends Component {
             this.turnCount = this.turnCount + 1;
           }
           //console.log("turn count is: " + this.turnCount);
+
+          if (game.isGameOver()) {
+            announced_game_over = true;
+            console.log("GAME OVER YOU LOSE"); // when the game is over open the modal to enter the username and post to the leaderboard
+            this.setState({ isGameOver: true });
+          }
 
           prepareMove();
           uciCmd("eval", evaler);
@@ -299,13 +307,14 @@ class Stockfish extends Component {
     };
   };
   render() {
-    const { fen, turnCount, moveHistory } = this.state;
+    const { fen, turnCount, moveHistory, isGameOver } = this.state;
     return React.cloneElement(
       this.props.children({
         position: fen,
         onDrop: this.onDrop,
         turns: turnCount,
         history: moveHistory,
+        gameOverStatus: isGameOver,
       }) // pass game AI data to render to the chessboard component
     );
   }

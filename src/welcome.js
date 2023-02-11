@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Modal from "react-modal";
 import { MdClose } from "react-icons/md";
 
@@ -16,7 +16,10 @@ const customStyles = {
 
 Modal.setAppElement("#root");
 
-export default function Welcome() {
+export default function Welcome({ openStatus }) {
+  // reinsert this button in the dom to test
+  // <button onClick={openModal}>Open Welcome Modal</button>
+
   const [modalIsOpen, setIsOpen] = React.useState(false);
   function openModal() {
     setIsOpen(true);
@@ -26,15 +29,20 @@ export default function Welcome() {
     setIsOpen(false);
   }
 
+  useEffect(() => {
+    if (openStatus === "open") {
+      openModal();
+    }
+  }, []);
+
   return (
     <div>
-      <button onClick={openModal}>Open Welcome Modal</button>
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
         contentLabel="Welcome Modal"
         style={customStyles}
-        className='modal'
+        className="modal"
       >
         <div className="modal__container">
           <h3>How To Play</h3>
@@ -44,10 +52,15 @@ export default function Welcome() {
             <li>This chess bot's estimated ELO is over 3500.</li>
             <li>You will lose quickly.</li>
             <li>See how many turns you have made at the top right.</li>
-            <li>Compete against the world leaderboard of the longest games without getting checkmated.</li>
+            <li>
+              Compete against the world leaderboard of the longest games without
+              getting checkmated.
+            </li>
           </ul>
           <span>Good luck.</span>
-          <div className="close"><MdClose /></div>
+          <a className="close" onClick={closeModal}>
+            <MdClose />
+          </a>
         </div>
       </Modal>
     </div>

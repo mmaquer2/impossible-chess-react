@@ -2,682 +2,687 @@
 @import url("https://fonts.googleapis.com/css2?family=Crimson+Text:wght@600&display=swap");
 
 body {
-    font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
-        Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-    color: var(--white);
-    background: var(--black);
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica,
+    Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  color: var(--white);
+  background: var(--black);
 }
 
 a {
-    text-decoration: none;
+  text-decoration: none;
 
-    &:link[href^="https://"]:after {
-        font-size: 0.75rem;
-        font-weight: 500;
-        line-height: 1;
-        margin-left: 0.25rem;
-        content: "↗";
-        vertical-align: text-top;
-        opacity: 0.5;
-    }
+  &:link[href^="https://"]:after
+  {
+    font-size: 0.75rem;
+    font-weight: 500;
+    line-height: 1;
+    margin-left: 0.25rem;
+    content: "↗";
+    vertical-align: text-top;
+    opacity: 0.5;
+  }
 
-    &:hover {
-        text-decoration: dashed;
-    }
+  &:hover {
+    text-decoration: dashed;
+  }
 }
 
 h3 {
-    font-size: 1.25rem;
+  font-size: 1.25rem;
 }
 
 button {
-    display: flex;
-    align-items: center;
-    margin-right: 1rem;
-    background: var(--red);
-    border: 0;
-    color: #fff;
-    font-size: 14px;
-    padding: 0.25rem 0.5rem;
-    border-radius: 0.25rem;
-    font-weight: 500;
+  display: flex;
+  align-items: center;
+  margin-right: 1rem;
+  background: var(--red);
+  border: 0;
+  color: #fff;
+  font-size: 14px;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+  font-weight: 500;
 
-    svg {
-        margin-right: 0.25rem;
-    }
+  svg {
+    margin-right: 0.25rem;
+  }
 
-    &:hover {
-        background: #882725;
-        cursor: pointer;
-    }
+  &:hover {
+    background: #882725;
+    cursor: pointer;
+  }
 }
 
 .silent {
-    opacity: 0.75;
+  opacity: 0.75;
 }
 
 .header__ad {
-    display: none;
-    justify-content: center;
-    align-items: center;
-    min-height: 200px;
-    text-align: center;
-    position: relative;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  text-align: center;
+  position: relative;
 }
 
 .header {
-    position: relative;
-    top: 0;
-    width: 100%;
-    padding: 0.25rem 0;
-    background: var(--black-o);
+  position: relative;
+  top: 0;
+  width: 100%;
+  padding: 0.25rem 0;
+  background: var(--black-o);
 
-    .container {
-        display: block;
+  .container {
+    display: block;
+    align-items: center;
+
+    .header__logo {
+      display: flex;
+      padding: 1rem 0 0.25rem;
+
+      a {
+        border-bottom: 0;
+        display: flex;
         align-items: center;
 
-        .header__logo {
-            display: flex;
-            padding: 1rem 0 0.25rem;
-
-            a {
-                border-bottom: 0;
-                display: flex;
-                align-items: center;
-
-                &:hover {
-                    text-decoration: none;
-                }
-
-                img {
-                    max-width: 3rem;
-                }
-
-                span {
-                    font-size: 1.5rem;
-                    font-weight: 600;
-                    font-family: "Crimson Text", serif;
-                }
-            }
+        &:hover {
+          text-decoration: none;
         }
 
-        .header__list {
-            display: flex;
-            margin-left: auto;
-
-            .header__item {
-                .header__link {
-                    display: flex;
-                    color: var(--white);
-                    opacity: 0.65;
-                    font-weight: 500;
-                    font-size: 14px;
-                    border-bottom: 0;
-                    margin-right: 2rem;
-                    padding: 1rem 0;
-
-                    &:hover {
-                        opacity: 1;
-                        text-decoration: none;
-                    }
-
-                    &.active {
-                        opacity: 1;
-                    }
-
-                    svg {
-                        margin-right: 0.5rem;
-                    }
-                }
-            }
-        }
-    }
-}
-
-.hero {
-    padding: 4rem 0;
-    text-align: center;
-    background: #000;
-
-    &.deleted {
-        display: none;
-    }
-
-    h1 {
-        font-weight: 500;
-        font-size: 3rem;
-        margin: 0 0 0.5rem;
-    }
-
-    h2 {
-        font-weight: 500;
-        font-size: 2rem;
-        line-height: 1.5;
-    }
-
-    p {
-        margin: 0;
-        opacity: 0.75;
-    }
-
-    &__instructions {
-        text-align: left;
-        max-width: 25rem;
-        margin: 1.5rem auto;
-        border-top: 1px solid #333;
-
-        h3 {
-            margin: 2rem 0;
-        }
-    }
-}
-
-.chess {
-    display: flex;
-    border-top-left-radius: 1rem;
-    border-top-right-radius: 1rem;
-    margin-top: 2rem;
-
-    .chess__header {
-        display: flex;
-        padding: 0 0 1rem;
-        align-items: center;
-
-        .chess__header__meta {
-            display: flex;
-            align-items: center;
-            width: 100%;
-
-            .chess__gm {
-                background: var(--red);
-                padding: 0.25rem;
-                font-size: 0.75rem;
-                color: #fff;
-                font-weight: 500;
-                border-radius: 0.25rem;
-                line-height: 1rem;
-            }
-
-            .chess__stockfish {
-                color: #fff;
-                font-weight: 700;
-                margin-left: 0.5rem;
-                line-height: 1rem;
-            }
-
-            .chess__rating {
-                color: #fff;
-                opacity: 0.75;
-                margin-left: 0.25rem;
-                line-height: 1rem;
-            }
-        }
-
-        .chess__header__turns {
-            display: flex;
-            align-items: center;
-            margin-left: auto;
-
-            .silent {
-                margin-right: 0.25rem;
-            }
-        }
-    }
-
-    .chess__container {
-        .chess__board {
-            flex: 2;
-            max-width: 600px;
-
-            img {
-                width: 100%;
-                height: 100%;
-            }
-        }
-    }
-
-    .chess__leaderboard {
-        flex: 1;
-        border: 1px solid #333;
-        border-radius: 0.5rem;
-        margin-top: 3rem;
-
-        .chess__leaderboard__header {
-            display: flex;
-            flex-direction: column;
-            border-bottom: 1px solid #333;
-            padding: 2rem 1rem;
-            background: var(--header);
-            border-top-right-radius: 0.5rem;
-            border-top-left-radius: 0.5rem;
-
-            h3 {
-                font-weight: 500;
-                font-size: 1rem;
-                margin: 0;
-            }
-
-            img {
-                max-width: 4rem;
-            }
-
-            span {
-                display: block;
-                margin-top: 0.5rem;
-                font-weight: 400;
-                font-size: 0.9rem;
-            }
-        }
-
-        .chess__leaderboard__list {
-            overflow: auto;
-            width: 100%;
-            padding: 0;
-            margin: 0;
-            border-spacing: 0;
-
-            tr {
-                th {
-                    text-align: left;
-                    padding: 0.5rem 1rem;
-                    border-bottom: 1px solid #333;
-                    font-size: 14px;
-                    background: var(--header);
-                    font-weight: 400;
-                }
-
-                td {
-                    padding: 1rem;
-                    border-bottom: 1px solid #333;
-                }
-
-                &:last-of-type {
-                    td {
-                        border-bottom: 0;
-                    }
-                }
-
-                &:nth-child(odd) {}
-
-                &:nth-child(even) {}
-
-                &:hover {
-                    td {
-                        background: var(--black-o);
-                    }
-                }
-
-                &:last-of-type {
-                    &:hover {
-                        td {
-                            border-bottom-left-radius: 0.25rem;
-                            border-bottom-right-radius: 0.25rem;
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    .chess__ad {
-        flex: 1;
-        border: 1px solid #333;
-        border-radius: 0.5rem;
-        margin-top: 3rem;
-
-        .chess__ad__header {
-            display: flex;
-            flex-direction: column;
-            border-bottom: 1px solid #333;
-            padding: 1rem;
-            background: var(--header);
-            border-top-right-radius: 0.5rem;
-            border-top-left-radius: 0.5rem;
-
-            h3 {
-                font-weight: 500;
-                font-size: 1rem;
-                margin: 0;
-            }
-        }
-
-        .chess__leaderboard__list {
-            max-height: 30rem;
-            overflow: auto;
-            padding: 0 1rem;
-
-            ul {
-                margin-top: 2rem;
-
-                li {
-                    margin: 1rem 0;
-                }
-            }
-        }
-    }
-
-    .chess__moves {
-        flex: 1;
-        border: 1px solid #333;
-        border-radius: 0.5rem;
-
-        .chess__moves__header {
-            display: flex;
-            flex-direction: column;
-            border-bottom: 1px solid #333;
-            padding: 1rem;
-            background: var(--header);
-            border-top-right-radius: 0.5rem;
-            border-top-left-radius: 0.5rem;
-
-            h3 {
-                font-weight: 500;
-                font-size: 1rem;
-                margin: 0;
-            }
-
-            span {
-                display: block;
-                margin-top: 0.5rem;
-                font-weight: 400;
-                font-size: 0.9rem;
-            }
-        }
-
-        .chess__moves__list {
-            max-height: 600px;
-            overflow: auto;
-            padding: 0;
-
-            ul {
-                margin: 0;
-                padding: 0;
-
-                li {
-                    padding: 0.75rem 2rem;
-                    font-size: 14px;
-
-                    &:nth-child(odd) {
-                        background: rgba(0, 0, 0, 0.1);
-                    }
-
-                    &:nth-child(even) {
-                        background: rgba(0, 0, 0, 0.25);
-                    }
-                }
-            }
-        }
-    }
-}
-
-.chess__username {
-    display: flex;
-    justify-content: center;
-
-    .chess__username__meta {
-        display: flex;
-        flex-direction: column;
-        max-width: 25rem;
-        justify-content: center;
-        margin: auto;
-
-        .chess__username__button {
-            margin-top: 1rem;
-        }
-
-        input {
-            font-size: 1.25rem;
-            outline: 0;
-            border: 0;
-            padding: 0.5rem;
-        }
-    }
-}
-
-.about {
-    margin-top: 5rem;
-    font-size: 1.125rem;
-
-    h3 {
-        font-weight: 500;
-    }
-
-    p {
-        margin: 0;
-    }
-
-    a {
-        display: block;
-        margin-top: 2rem;
-    }
-}
-
-.social {
-    margin-top: 5rem;
-    font-size: 1.125rem;
-    line-height: 2;
-
-    h3 {
-        font-weight: 500;
-    }
-
-    span {
-        display: inline-block;
-        margin: 0 0.5rem 0 0;
-    }
-}
-
-.footer {
-    display: flex;
-    flex-direction: column;
-    margin: 5rem auto 0;
-    font-size: 1rem;
-    padding: 5rem 0;
-    background: var(--black-o);
-
-    .footer__meta {
-        p {
-            margin: 0 0 3rem;
-        }
-
-        .footer__logo {
-            font-size: 2rem;
-            font-weight: 600;
-            font-family: "Crimson Text", serif;
-            margin-bottom: 0.5rem;
-        }
-    }
-
-    .footer__list {
-        display: block;
-        margin: 0 0 1.25rem;
-
-        .footer__list__item {
-            margin: 0 2rem 0 0;
-
-            .footer__list__link {
-                display: block;
-                color: var(--white);
-                font-size: 1rem;
-                margin-bottom: 1rem;
-            }
-        }
-    }
-
-    span {
-        opacity: 0.5;
-        line-height: 1.75;
-    }
-}
-
-.changelog {
-    padding: 3rem 0;
-
-    h3 {
-        font-size: 2rem;
-        font-weight: 500;
-        margin-bottom: 1rem;
-    }
-
-    time {
-        opacity: 0.75;
-    }
-
-    ul {
-        list-style: disc;
-        padding: 1.5rem;
-        margin-top: 1rem;
-
-        li {}
-    }
-}
-
-.modal {
-    display: flex;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 9999;
-    position: absolute;
-    width: 100%;
-
-    .modal__container {
-        display: flex;
-        z-index: 9999;
-        justify-content: center;
-        position: relative;
-        flex-direction: column;
-        margin: auto;
-        width: 450px;
-        background: var(--black);
-        padding: 3rem 2rem;
-        border-radius: .5rem;
-        border: 1px solid #333;
-        text-align: center;
-
-        h3 {
-            font-family: "Crimson Text", serif;
-            margin: 0 0 1rem;
-            font-size: 2rem;
-            text-align: center;
-
-            &.red {
-                color: #882725;
-                font-size: 2rem;
-            }
-        }
-
-        h4 {
-            font-size: 14px;
-            opacity: .75;
-            margin: 0;
-        }
-
-        p {
-            margin: 0;
-            opacity: .75;
-        }
-
-        ul {
-            list-style: disc;
-            padding: 1rem 2rem;
-            margin: 0;
-            text-align: left;
-
-            li {
-                padding: .25rem 0;
-                line-height: 1.75;
-            }
+        img {
+          max-width: 3rem;
         }
 
         span {
-            font-family: "Crimson Text", serif;
-            color: #882725;
-            font-size: 1.5rem;
-            text-align: center;
-            margin-top: 3rem;
+          font-size: 1.5rem;
+          font-weight: 600;
+          font-family: "Crimson Text", serif;
         }
-
-        form {
-            display: flex;
-            margin: 2rem auto 0;
-            width: 100%;
-
-            input {
-                width: 100%;
-                font-size: 1rem;
-                padding: 0.5rem 0.5rem;
-                border-radius: 0.25rem;
-                border: 0;
-            }
-
-            button {
-                font-size: 1rem;
-                margin-left: .25rem;
-                margin-right: 0;
-            }
-        }
-
-        .close {
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            font-size: 2rem;
-
-            &:hover {
-                cursor: pointer;
-                opacity: .75;
-            }
-
-            svg {
-                fill: #fff;
-            }
-        }
-
-        .modal__social {
-            margin-top: 1rem;
-            display: flex;
-            justify-content: center;
-
-            button {
-                margin-right: .25rem;
-                margin-left: .25rem;
-            }
-        }
-
-        small {
-            text-align: left;
-            opacity: .5;
-            margin-top: .5rem;
-            margin-bottom: 2rem;
-
-            a {
-                text-decoration: underline;
-
-                &:hover {
-                    text-decoration: none;
-                }
-
-                &:link[href^="https://"]:after {
-                    content: "" !important;
-                }
-            }
-        }
+      }
     }
+
+    .header__list {
+      display: flex;
+      margin-left: auto;
+
+      .header__item {
+        .header__link {
+          display: flex;
+          color: var(--white);
+          opacity: 0.65;
+          font-weight: 500;
+          font-size: 14px;
+          border-bottom: 0;
+          margin-right: 2rem;
+          padding: 1rem 0;
+
+          &:hover {
+            opacity: 1;
+            text-decoration: none;
+          }
+
+          &.active {
+            opacity: 1;
+          }
+
+          svg {
+            margin-right: 0.5rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+.hero {
+  padding: 4rem 0;
+  text-align: center;
+  background: #000;
+
+  &.deleted {
+    display: none;
+  }
+
+  h1 {
+    font-weight: 500;
+    font-size: 3rem;
+    margin: 0 0 0.5rem;
+  }
+
+  h2 {
+    font-weight: 500;
+    font-size: 2rem;
+    line-height: 1.5;
+  }
+
+  p {
+    margin: 0;
+    opacity: 0.75;
+  }
+
+  &__instructions {
+    text-align: left;
+    max-width: 25rem;
+    margin: 1.5rem auto;
+    border-top: 1px solid #333;
+
+    h3 {
+      margin: 2rem 0;
+    }
+  }
+}
+
+.chess {
+  display: flex;
+  border-top-left-radius: 1rem;
+  border-top-right-radius: 1rem;
+  margin-top: 2rem;
+
+  .chess__header {
+    display: flex;
+    padding: 0 0 1rem;
+    align-items: center;
+
+    .chess__header__meta {
+      display: flex;
+      align-items: center;
+      width: 100%;
+
+      .chess__gm {
+        background: var(--red);
+        padding: 0.25rem;
+        font-size: 0.75rem;
+        color: #fff;
+        font-weight: 500;
+        border-radius: 0.25rem;
+        line-height: 1rem;
+      }
+
+      .chess__stockfish {
+        color: #fff;
+        font-weight: 700;
+        margin-left: 0.5rem;
+        line-height: 1rem;
+      }
+
+      .chess__rating {
+        color: #fff;
+        opacity: 0.75;
+        margin-left: 0.25rem;
+        line-height: 1rem;
+      }
+    }
+
+    .chess__header__turns {
+      display: flex;
+      align-items: center;
+      margin-left: auto;
+
+      .silent {
+        margin-right: 0.25rem;
+      }
+    }
+  }
+
+  .chess__container {
+    .chess__board {
+      flex: 2;
+      max-width: 600px;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
+    }
+  }
+
+  .chess__leaderboard {
+    flex: 1;
+    border: 1px solid #333;
+    border-radius: 0.5rem;
+    margin-top: 3rem;
+
+    .chess__leaderboard__header {
+      display: flex;
+      flex-direction: column;
+      border-bottom: 1px solid #333;
+      padding: 2rem 1rem;
+      background: var(--header);
+      border-top-right-radius: 0.5rem;
+      border-top-left-radius: 0.5rem;
+
+      h3 {
+        font-weight: 500;
+        font-size: 1rem;
+        margin: 0;
+      }
+
+      img {
+        max-width: 4rem;
+      }
+
+      span {
+        display: block;
+        margin-top: 0.5rem;
+        font-weight: 400;
+        font-size: 0.9rem;
+      }
+    }
+
+    .chess__leaderboard__list {
+      overflow: auto;
+      width: 100%;
+      padding: 0;
+      margin: 0;
+      border-spacing: 0;
+
+      tr {
+        th {
+          text-align: left;
+          padding: 0.5rem 1rem;
+          border-bottom: 1px solid #333;
+          font-size: 14px;
+          background: var(--header);
+          font-weight: 400;
+        }
+
+        td {
+          padding: 1rem;
+          border-bottom: 1px solid #333;
+        }
+
+        &:last-of-type {
+          td {
+            border-bottom: 0;
+          }
+        }
+
+        &:nth-child(odd) {
+        }
+
+        &:nth-child(even) {
+        }
+
+        &:hover {
+          td {
+            background: var(--black-o);
+          }
+        }
+
+        &:last-of-type {
+          &:hover {
+            td {
+              border-bottom-left-radius: 0.25rem;
+              border-bottom-right-radius: 0.25rem;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .chess__ad {
+    flex: 1;
+    border: 1px solid #333;
+    border-radius: 0.5rem;
+    margin-top: 3rem;
+
+    .chess__ad__header {
+      display: flex;
+      flex-direction: column;
+      border-bottom: 1px solid #333;
+      padding: 1rem;
+      background: var(--header);
+      border-top-right-radius: 0.5rem;
+      border-top-left-radius: 0.5rem;
+
+      h3 {
+        font-weight: 500;
+        font-size: 1rem;
+        margin: 0;
+      }
+    }
+
+    .chess__leaderboard__list {
+      max-height: 30rem;
+      overflow: auto;
+      padding: 0 1rem;
+
+      ul {
+        margin-top: 2rem;
+
+        li {
+          margin: 1rem 0;
+        }
+      }
+    }
+  }
+
+  .chess__moves {
+    flex: 1;
+    border: 1px solid #333;
+    border-radius: 0.5rem;
+
+    .chess__moves__header {
+      display: flex;
+      flex-direction: column;
+      border-bottom: 1px solid #333;
+      padding: 1rem;
+      background: var(--header);
+      border-top-right-radius: 0.5rem;
+      border-top-left-radius: 0.5rem;
+
+      h3 {
+        font-weight: 500;
+        font-size: 1rem;
+        margin: 0;
+      }
+
+      span {
+        display: block;
+        margin-top: 0.5rem;
+        font-weight: 400;
+        font-size: 0.9rem;
+      }
+    }
+
+    .chess__moves__list {
+      max-height: 600px;
+      overflow: auto;
+      padding: 0;
+
+      ul {
+        margin: 0;
+        padding: 0;
+
+        li {
+          padding: 0.75rem 2rem;
+          font-size: 14px;
+
+          &:nth-child(odd) {
+            background: rgba(0, 0, 0, 0.1);
+          }
+
+          &:nth-child(even) {
+            background: rgba(0, 0, 0, 0.25);
+          }
+        }
+      }
+    }
+  }
+}
+
+.chess__username {
+  display: flex;
+  justify-content: center;
+
+  .chess__username__meta {
+    display: flex;
+    flex-direction: column;
+    max-width: 25rem;
+    justify-content: center;
+    margin: auto;
+
+    .chess__username__button {
+      margin-top: 1rem;
+    }
+
+    input {
+      font-size: 1.25rem;
+      outline: 0;
+      border: 0;
+      padding: 0.5rem;
+    }
+  }
+}
+
+.about {
+  margin-top: 5rem;
+  font-size: 1.125rem;
+
+  h3 {
+    font-weight: 500;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  a {
+    display: block;
+    margin-top: 2rem;
+  }
+}
+
+.social {
+  margin-top: 5rem;
+  font-size: 1.125rem;
+  line-height: 2;
+
+  h3 {
+    font-weight: 500;
+  }
+
+  span {
+    display: inline-block;
+    margin: 0 0.5rem 0 0;
+  }
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  margin: 5rem auto 0;
+  font-size: 1rem;
+  padding: 5rem 0;
+  background: var(--black-o);
+
+  .footer__meta {
+    p {
+      margin: 0 0 3rem;
+    }
+
+    .footer__logo {
+      font-size: 2rem;
+      font-weight: 600;
+      font-family: "Crimson Text", serif;
+      margin-bottom: 0.5rem;
+    }
+  }
+
+  .footer__list {
+    display: block;
+    margin: 0 0 1.25rem;
+
+    .footer__list__item {
+      margin: 0 2rem 0 0;
+
+      .footer__list__link {
+        display: block;
+        color: var(--white);
+        font-size: 1rem;
+        margin-bottom: 1rem;
+      }
+    }
+  }
+
+  span {
+    opacity: 0.5;
+    line-height: 1.75;
+  }
+}
+
+.changelog {
+  padding: 3rem 0;
+
+  h3 {
+    font-size: 2rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+  }
+
+  time {
+    opacity: 0.75;
+  }
+
+  ul {
+    list-style: disc;
+    padding: 1.5rem;
+    margin-top: 1rem;
+
+    li {
+    }
+  }
+}
+
+.modal {
+  display: flex;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 9999;
+  position: absolute;
+  width: 100%;
+
+  .modal__container {
+    display: flex;
+    z-index: 9999;
+    justify-content: center;
+    position: relative;
+    flex-direction: column;
+    margin: auto;
+    width: 450px;
+    background: var(--black);
+    padding: 3rem 2rem;
+    border-radius: 0.5rem;
+    border: 1px solid #333;
+    text-align: center;
+
+    h3 {
+      font-family: "Crimson Text", serif;
+      margin: 0 0 1rem;
+      font-size: 2rem;
+      text-align: center;
+
+      &.red {
+        color: #882725;
+        font-size: 2rem;
+      }
+    }
+
+    h4 {
+      font-size: 14px;
+      opacity: 0.75;
+      margin: 0;
+    }
+
+    p {
+      margin: 0;
+      opacity: 0.75;
+    }
+
+    ul {
+      list-style: disc;
+      padding: 1rem 2rem;
+      margin: 0;
+      text-align: left;
+
+      li {
+        padding: 0.25rem 0;
+        line-height: 1.75;
+      }
+    }
+
+    span {
+      font-family: "Crimson Text", serif;
+      color: #882725;
+      font-size: 1.5rem;
+      text-align: center;
+      margin-top: 3rem;
+    }
+
+    form {
+      display: flex;
+      margin: 2rem auto 0;
+      width: 100%;
+
+      input {
+        width: 100%;
+        font-size: 1rem;
+        padding: 0.5rem 0.5rem;
+        border-radius: 0.25rem;
+        border: 0;
+      }
+
+      button {
+        font-size: 1rem;
+        margin-left: 0.25rem;
+        margin-right: 0;
+      }
+    }
+
+    .close {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 2rem;
+
+      &:hover {
+        cursor: pointer;
+        opacity: 0.75;
+      }
+
+      svg {
+        fill: #fff;
+      }
+    }
+
+    .modal__social {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: center;
+
+      button {
+        margin-right: 0.25rem;
+        margin-left: 0.25rem;
+      }
+    }
+
+    small {
+      text-align: left;
+      opacity: 0.5;
+      margin-top: 0.5rem;
+      margin-bottom: 2rem;
+
+      a {
+        text-decoration: underline;
+
+        &:hover {
+          text-decoration: none;
+        }
+
+        &:link[href^="https://"]:after
+        {
+          content: "" !important;
+        }
+      }
+    }
+  }
 }
 
 .ReactModal__Overlay {
-    background: transparent !important;
-    z-index: 9999;
-    opacity: 0;
-    transform: translateY(-10px);
-    transition: all .2s ease-in-out;
+  background: transparent !important;
+  z-index: 9999;
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: all 0.2s ease-in-out;
 }
 
 .ReactModal__Overlay--after-open {
-    opacity: 1;
-    transform: translateX(0px);
+  opacity: 1;
+  transform: translateX(0px);
 }
 
 .ReactModal__Overlay--before-close {
-    opacity: 0;
-    transform: translateY(10px);
+  opacity: 0;
+  transform: translateY(10px);
 }
