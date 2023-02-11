@@ -6,12 +6,11 @@ import Leaderboard from "./Leaderboard";
 import StockFish from "./integrations/Stockfish.js";
 import { VscDebugRestart } from "react-icons/vsc";
 import { FaRobot } from "react-icons/fa";
-import Modal from "./postGameModal";
+import PostGameModal from "./postGameModal";
 import Welcome from "./welcome";
 import { Helmet } from "react-helmet";
+import { Chess } from "chess.js";
 import { ToastContainer, toast } from "react-toastify";
-
-//  <Modal /> // user enter username
 
 class Game extends Component {
   render() {
@@ -51,9 +50,6 @@ class Game extends Component {
                           </span>
                           <span className="chess__rating">(3500)</span>
                           <div className="chess__header__turns">
-                            <button>
-                              <VscDebugRestart /> Restart Game
-                            </button>
                             <span className="silent">Turns: </span>
                             {turns}
                           </div>
@@ -81,7 +77,7 @@ class Game extends Component {
                       </div>
                     </div>
                   </div>
-                  <Modal isGameOver={gameOverStatus} finalScore={turns} />
+
                   <Leaderboard />
                   <Welcome openStatus={"open"} />
                 </>

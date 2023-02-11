@@ -2,6 +2,8 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { Chess } from "chess.js"; // import Chess from  "chess.js"(default) if recieving an error about new Chess not being a constructor
 import { ToastContainer, toast } from "react-toastify";
+import { VscDebugRestart } from "react-icons/vsc";
+import PostGameModal from "../postGameModal";
 
 const STOCKFISH = window.STOCKFISH;
 const game = new Chess();
@@ -21,6 +23,11 @@ const notify = () =>
   });
 
 class Stockfish extends Component {
+  constructor(props) {
+    super(props);
+    //console.log(props)
+  }
+
   moveHistory = [];
   turnCount = 0;
   state = { fen: "start", turnCount: 0, moveHistory: [], isGameOver: false };
@@ -33,6 +40,20 @@ class Stockfish extends Component {
       isGameOver: false,
     });
     this.engineGame().prepareMove();
+  }
+
+  resetGame() {
+    console.log("reset function called");
+    //console.log(this.turnCount);
+
+    /*
+    this.setState({
+      fen: game.reset(),
+      turnCount: 0,
+      moveHistory: [],
+      isGameOver: false,
+    });
+    */
   }
 
   onDrop = ({ sourceSquare, targetSquare }) => {
@@ -208,8 +229,6 @@ class Stockfish extends Component {
         line = event;
       }
 
-      // console.log('evaler: ' + line);
-
       /// Ignore some output.
       if (
         line === "uciok" ||
@@ -306,16 +325,33 @@ class Stockfish extends Component {
       },
     };
   };
+
   render() {
-    const { fen, turnCount, moveHistory, isGameOver } = this.state;
-    return React.cloneElement(
-      this.props.children({
-        position: fen,
-        onDrop: this.onDrop,
-        turns: turnCount,
-        history: moveHistory,
-        gameOverStatus: isGameOver,
-      }) // pass game AI data to render to the chessboard component
+    const { fen, turnCount, moveHistory, isGameOver } = this.state; // get current version of state
+    console.log(isGameOver);
+    let GameOverModal;
+    if (isGameOver) {
+      GameOverModal = <PostGameModal finalScore={turnCount} />;
+    } // open game over modal when the game is complete
+
+    return (
+      <div>
+        {" "}
+        <button onClick={this.resetGame}>
+          {" "}
+          <VscDebugRestart /> Restart Game{" "}
+        </button>{" "}
+        <span>
+          {this.props.children({
+            position: fen,
+            onDrop: this.onDrop,
+            turns: turnCount,
+            history: moveHistory,
+            gameOverStatus: isGameOver,
+          })}
+        </span>
+        {GameOverModal}
+      </div>
     );
   }
 }

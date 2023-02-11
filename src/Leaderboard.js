@@ -28,6 +28,9 @@ export default function Leaderboard() {
       console.log("leaderboard data fetched successfully");
       // sort the list by the highest turn score
       const data = docSnap.data()["scores"];
+
+      // TODO: only display the top 20 players from the leaderboard on the game page
+
       data.sort(GetSortOrder("turns_played")).reverse();
       setLeaderboard(data); // set leaderboard state
     };

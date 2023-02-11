@@ -27,17 +27,14 @@ const customStyles = {
 
 Modal.setAppElement("#root");
 
-export default function PostGameModal({ isGameOver, finalScore }) {
+export default function PostGameModal({ finalScore }) {
   const [username, setUsername] = React.useState("");
   const [modalIsOpen, setIsOpen] = React.useState(false);
 
-  /*
   useEffect(() => {
-    if(isGameOver === "true"){
-        openModal()
-    }
+    console.log("the game over modal is open");
+    openModal();
   }, []);
-  */
 
   function openModal() {
     setIsOpen(true);
@@ -50,7 +47,8 @@ export default function PostGameModal({ isGameOver, finalScore }) {
       postResult();
       setIsOpen(false);
     } else {
-      console.log("failed to post result to database");
+      console.log("no username entered did not post result to database");
+      setIsOpen(false);
     }
   }
 
