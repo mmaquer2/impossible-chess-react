@@ -40,7 +40,7 @@ class Stockfish extends Component {
       });
 
       console.log("human: " + sourceSquare + " " + targetSquare);
-      let new_move = "Human: " + sourceSquare + " " + targetSquare;
+      let new_move = "You: " + sourceSquare + " " + targetSquare;
       let tempHistory = this.state.moveHistory;
       tempHistory.push(new_move); // update move history and turn counter from player moves
       this.setState({ moveHistory: tempHistory });
