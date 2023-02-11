@@ -545,7 +545,7 @@ button {
         position: relative;
         flex-direction: column;
         margin: auto;
-        width: 500px;
+        width: 450px;
         background: var(--black);
         padding: 3rem 2rem;
         border-radius: .5rem;
@@ -635,6 +635,7 @@ button {
             margin-top: 1rem;
             display: flex;
             justify-content: center;
+
             button {
                 margin-right: .25rem;
                 margin-left: .25rem;
@@ -665,4 +666,17 @@ button {
 .ReactModal__Overlay {
     background: transparent !important;
     z-index: 9999;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all .2s ease-in-out;
+}
+
+.ReactModal__Overlay--after-open {
+    opacity: 1;
+    transform: translateX(0px);
+}
+
+.ReactModal__Overlay--before-close {
+    opacity: 0;
+    transform: translateY(10px);
 }

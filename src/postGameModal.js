@@ -93,6 +93,7 @@ export default function PostGameModal({ userScore }) {
         contentLabel="Game Over Modal"
         style={customStyles}
         className='modal'
+        closeTimeoutMS={500}
       >
         <div className="modal__container">
           <h3 className="red">GAME OVER</h3>
