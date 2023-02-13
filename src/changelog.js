@@ -5,3 +5,4 @@ function ChangeLog() {
     </>
   );
 }
+export{ChangeLog}

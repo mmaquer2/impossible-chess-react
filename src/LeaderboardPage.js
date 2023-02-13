@@ -4,7 +4,7 @@ import { doc, getDoc } from "firebase/firestore";
 import { firebaseConfig } from "./firebase-config";
 import { useState, useEffect } from "react";
 
-export default function LeaderboardPage() {
+function LeaderboardPage() {
   const [leaderboard, setLeaderboard] = useState([]);
 
   function GetSortOrder(prop) {
@@ -34,12 +34,13 @@ export default function LeaderboardPage() {
     fetchData().catch(console.error);
   }, []);
 
-  //TODO: add pagination
+    return(<div>
 
-  return
-  (<>
-    
+        <p>Hello leaderboard is here!</p>
 
-    </>
-    ) ;
+    </div>)
+
+
 }
+
+export {LeaderboardPage}

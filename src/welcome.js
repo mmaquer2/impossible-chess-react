@@ -17,9 +17,7 @@ const customStyles = {
 Modal.setAppElement("#root");
 
 export default function Welcome({ openStatus }) {
-  // reinsert this button in the dom to test
-  // <button onClick={openModal}>Open Welcome Modal</button>
-
+  
   const [modalIsOpen, setIsOpen] = React.useState(false);
   function openModal() {
     setIsOpen(true);

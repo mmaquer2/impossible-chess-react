@@ -1,10 +1,5 @@
-import Head from "next/head";
-import Link from "next/link";
-import { Chessboard } from "react-chessboard";
-import Header from "/components/Header";
-import Footer from "/components/Footer";
 
-export default function Home() {
+function About() {
   return (
     <>
       <Head>
@@ -14,8 +9,10 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-
+      <p>Hello is is the about page</p>
       <Footer />
     </>
   );
 }
+
+export {About}
