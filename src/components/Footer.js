@@ -30,17 +30,9 @@ export default function Footer() {
               Contact
             </a>
           </li>
-          <li className="footer__list__item">
-            <a href="/FAQ" className="footer__list__a">
-              @impossiblechess
-            </a>
-          </li>
         </ul>
         <span>
-          Copyright &copy; {new Date().getFullYear()} Impossible Chess. All
-          Rights Reserved. Created by{" "}
-          <a href="https://owenbick.com">Owen Bick</a> and{" "}
-          <a href="https://mikemaquera.dev/">Mike Maquera</a>.
+          Copyright &copy; {new Date().getFullYear()} Impossible Chess. All Rights Reserved. Created by <a href="https://owenbick.com">Owen Bick</a> and <a href="https://mikemaquera.dev/">Mike Maquera</a>.
         </span>
       </div>
     </footer>

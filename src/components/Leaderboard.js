@@ -13,13 +13,15 @@ export default function ScoreTable({ data }) {
               <th>Date</th>
             </tr>
           </thead>
-          {data.map((el, index) => (
-            <tr key={index}>
-              <td>{el["user_name"]}</td>
-              <td>{el["turns_played"]}</td>
-              <td>{el["game_date"]}</td>
-            </tr>
-          ))}
+          <tbody>
+            {data.map((el, index) => (
+              <tr key={index}>
+                <td>{el["user_name"]}</td>
+                <td>{el["turns_played"]}</td>
+                <td>{el["game_date"]}</td>
+              </tr>
+            ))}
+          </tbody>
         </table>
       </div>
     </>

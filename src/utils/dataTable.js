@@ -1,10 +1,12 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "@firebase/firestore";
 import { doc, getDoc } from "firebase/firestore";
-import { firebaseConfig } from "./firebase-config";
-import { useState, useEffect } from "react";
+import { firebaseConfig } from "../api/firebase";
+import React, { useState, useEffect, useMemo } from "react";
+import { useTable, useSortBy, usePagination } from 'react-table';
+import ScoreTable from "../components/Leaderboard";
 
-function LeaderboardPage() {
+export default function Leaderboard() {
   const [leaderboard, setLeaderboard] = useState([]);
 
   function GetSortOrder(prop) {
@@ -27,6 +29,9 @@ function LeaderboardPage() {
       console.log("leaderboard data fetched successfully");
       // sort the list by the highest turn score
       const data = docSnap.data()["scores"];
+
+      // TODO: only display the top 20 players from the leaderboard on the game page
+
       data.sort(GetSortOrder("turns_played")).reverse();
       setLeaderboard(data); // set leaderboard state
     };
@@ -34,13 +39,9 @@ function LeaderboardPage() {
     fetchData().catch(console.error);
   }, []);
 
-    return(<div>
-
-        <p>Hello leaderboard is here!</p>
-
-    </div>)
-
-
+  return (
+    <>
+      <ScoreTable data={leaderboard} />
+    </>
+  );
 }
-
-export {LeaderboardPage}

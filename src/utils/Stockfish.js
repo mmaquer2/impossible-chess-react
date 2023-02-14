@@ -1,14 +1,12 @@
 import React, { Component } from "react";
-import PropTypes from "prop-types";
-import { Chess } from "chess.js"; // import Chess from  "chess.js"(default) if recieving an error about new Chess not being a constructor
-import { ToastContainer, toast } from "react-toastify";
-import { VscDebugRestart } from "react-icons/vsc";
-import PostGameModal from "../postGameModal";
+import { Chess } from "chess.js"; // import Chess from  "chess.js"(default) if receiving an error about new Chess not being a constructor
+import { toast } from "react-toastify";
+import PostGameModal from "../components/endModal";
 
 const STOCKFISH = window.STOCKFISH;
 const game = new Chess();
 
-let shouldReset = false; 
+let shouldReset = false;
 
 // TODO: use this as a flag to indicate that a player has been notified of a signal
 
@@ -110,26 +108,26 @@ class Stockfish extends Component {
     let announced_game_over;
 
     setInterval(function () {
-    
-      if(shouldReset){
+
+      if (shouldReset) {
         console.log("reset function called");
 
-          // TODO: reset game state when called 
-          /*
-            //fen.reset();
-            this.setState({
-              fen: "start",
-              turnCount: 0,
-              moveHistory: [],
-              isGameOver: false,
-            });
-            
-          */
+        // TODO: reset game state when called 
+        /*
+          //fen.reset();
+          this.setState({
+            fen: "start",
+            turnCount: 0,
+            moveHistory: [],
+            isGameOver: false,
+          });
           
+        */
+
 
         shouldReset = false;
       }
-    
+
       if (announced_game_over) {
         return;
       }
@@ -213,15 +211,15 @@ class Stockfish extends Component {
           if (time && time.wtime) {
             uciCmd(
               "go " +
-                (time.depth ? "depth " + time.depth : "") +
-                " wtime " +
-                time.wtime +
-                " winc " +
-                time.winc +
-                " btime " +
-                time.btime +
-                " binc " +
-                time.binc
+              (time.depth ? "depth " + time.depth : "") +
+              " wtime " +
+              time.wtime +
+              " winc " +
+              time.winc +
+              " btime " +
+              time.btime +
+              " binc " +
+              time.binc
             );
           } else {
             uciCmd("go " + (time.depth ? "depth " + time.depth : ""));
@@ -272,19 +270,19 @@ class Stockfish extends Component {
         if (match) {
           // isEngineRunning = false;
           game.move({ from: match[1], to: match[2], promotion: match[3] });
-          
+
           // AI Makes Move Here
           this.setState({ fen: game.fen() });
           console.log("AI: " + match[1] + " " + match[2]);
           let new_move = "AI: " + match[1] + " " + match[2];
-          
+
           let tempHistory = this.state.moveHistory;
           tempHistory.push(new_move); // update move history and turn counter from player moves
           this.setState({ moveHistory: tempHistory });
           if (this.moveHistory.length % 2 === 0) {
             this.turnCount = this.turnCount + 1;
           }
-          
+
           if (game.isGameOver()) {
             announced_game_over = true;
             //console.log("GAME OVER YOU LOSE"); // when the game is over open the modal to enter the username and post to the leaderboard
@@ -343,14 +341,9 @@ class Stockfish extends Component {
     let GameOverModal; // open game over modal when the game is complete
     if (isGameOver) {
       GameOverModal = <PostGameModal finalScore={turnCount} />;
-    } 
+    }
     return (
       <div>
-        {" "}
-        <button onClick={this.resetGame}>
-          {" "}
-          <VscDebugRestart /> Restart Game{" "}
-        </button>{" "}
         <span>
           {this.props.children({
             position: fen,

@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "@firebase/firestore";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import { firebaseConfig } from "./firebase-config";
+import { firebaseConfig } from "../api/firebase";
 import { DateTime } from "luxon";
 import React, { useEffect } from "react";
 import Modal from "react-modal";
