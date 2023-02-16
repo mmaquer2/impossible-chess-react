@@ -27,6 +27,10 @@ const notify = () =>
   });
 
 class Stockfish extends Component {
+  constructor(props) {
+    super(props);
+    //console.log("game props reset status: " + props)
+  }
 
   moveHistory = [];
   turnCount = 0;
@@ -108,6 +112,10 @@ class Stockfish extends Component {
     let announced_game_over;
 
     setInterval(function () {
+
+
+      // TODO: handle props when the game is reset here
+      //console.log(props.gameResetStatus)
 
       if (shouldReset) {
         console.log("reset function called");
