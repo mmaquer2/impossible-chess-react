@@ -59,7 +59,9 @@ class Game extends Component {
                         )}
                     </StockFish>
                 </div>
+                
             </section>
+            
         );
     }
 }

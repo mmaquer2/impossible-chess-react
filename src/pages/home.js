@@ -3,8 +3,54 @@ import { Helmet } from "react-helmet";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Game from "../components/Game";
+import { initializeApp } from "firebase/app";
+import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
+import { firebaseConfig } from "../api/firebase";
+import PostGameModal from "../components/endModal";
 
 function Home() {
+    
+  const provider = new GoogleAuthProvider();
+  const app = initializeApp(firebaseConfig); 
+  const auth = getAuth(app);
+  
+  
+  function signInWithGoogle() {
+
+     
+            signInWithPopup(auth, provider)
+            .then((result) => {
+                const credential = GoogleAuthProvider.credentialFromResult(result);
+                const token = credential.accessToken;
+                const user = result.user;
+                console.log("user: " + user);
+                console.log("token: " + token);
+                console.log("current auth user:" + auth.currentUser);
+            })
+            .catch((error) => {
+                const errorCode = error.code;
+                const errorMessage = error.message;
+                const email = error.email;
+                const credential = GoogleAuthProvider.credentialFromError(error);
+                console.log("error code: " + errorCode);
+                console.log("error message: " + errorMessage);
+                console.log("email: " + email);
+                console.log("credential: " + credential);
+            });
+        
+    
+    }
+
+
+    function handleLogOut(){
+        signOut(auth).then(() => {
+            
+            console.log("log out was successful")
+            console.log("user after logout call: "+ auth.currentUser)
+        }).catch((error) => {
+            console.log("log out was not successful")
+        });
+    }  
     return (
         <>
             <Helmet>
@@ -27,6 +73,11 @@ function Home() {
             </Helmet>
             <Header />
             <Game />
+            <button onClick = {signInWithGoogle}>Login With Google</button>
+            <button onClick={handleLogOut}>Logout</button>
+            <PostGameModal ></PostGameModal>
+            
+            
             <Footer />
         </>
     );
