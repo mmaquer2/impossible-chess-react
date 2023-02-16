@@ -31,10 +31,12 @@ Modal.setAppElement("#root");
 export default function PostGameModal({ finalScore }) {
   const [username, setUsername] = React.useState("");
   const [modalIsOpen, setIsOpen] = React.useState(false);
+  const [errorFeedback, setErrorFeedback] = React.useState("");
 
   const app = initializeApp(firebaseConfig); 
   const provider = new GoogleAuthProvider();
   const auth = getAuth(app);
+  
   
   useEffect(() => {
     openModal();
@@ -76,11 +78,13 @@ export default function PostGameModal({ finalScore }) {
     // check if username is valid here
     if(username == null || username == undefined || username == ""){
       console.log("username is not valid");
+      setErrorFeedback("Please enter a valid username");
     
     } else {
       
+      setErrorFeedback(""); // clear the error feedback
       postResult();
-      //closeModal();
+     
     }
     
   }
@@ -95,6 +99,8 @@ export default function PostGameModal({ finalScore }) {
     const dt = DateTime.now();
     let today = dt.toLocaleString();
     const user  = auth.currentUser;
+
+    // check if the user is logged in
     if (user != null || user != undefined){
 
       console.log(user.email)
@@ -133,6 +139,7 @@ export default function PostGameModal({ finalScore }) {
 
 
       console.log(" cannot submit score user is not logged in");
+      setErrorFeedback("Please login with google to submit your score");
     }
       
   }
@@ -153,6 +160,7 @@ export default function PostGameModal({ finalScore }) {
           <h3 className="red">GAME OVER</h3>
           <h3>You got checkmated!</h3>
           <p>You lasted {finalScore} moves.</p>
+          <p>{errorFeedback}</p>
           <form>
             <input
               type="text"
