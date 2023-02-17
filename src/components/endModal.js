@@ -1,6 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "@firebase/firestore";
 import { doc, setDoc, getDoc } from "firebase/firestore";
+import { getAuth, signInWithPopup, GoogleAuthProvider, signOut } from "firebase/auth";
 import { firebaseConfig } from "../api/firebase";
 import { DateTime } from "luxon";
 import React, { useEffect } from "react";
@@ -30,66 +31,117 @@ Modal.setAppElement("#root");
 export default function PostGameModal({ finalScore }) {
   const [username, setUsername] = React.useState("");
   const [modalIsOpen, setIsOpen] = React.useState(false);
+  const [errorFeedback, setErrorFeedback] = React.useState("");
 
+  const app = initializeApp(firebaseConfig); 
+  const provider = new GoogleAuthProvider();
+  const auth = getAuth(app);
+  
+  
   useEffect(() => {
-    //console.log("the game over modal is open");
     openModal();
   }, []);
+
+  function signInWithGoogle(e) {
+    e.preventDefault();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        const user = result.user;
+        console.log("user: " + user);
+        console.log("token: " + token);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        const email = error.email;
+        const credential = GoogleAuthProvider.credentialFromError(error);
+        console.log("error code: " + errorCode);
+        console.log("error message: " + errorMessage);
+        console.log("email: " + email);
+        console.log("credential: " + credential);
+      });
+  }
 
   function openModal() {
     setIsOpen(true);
   }
 
   function closeModal() {
-    //TODO: error validation for the bad word and empty username field
+    setIsOpen(false);
+  }
 
-    if (username !== "") {
-      postResult();
-      setIsOpen(false);
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    // check if username is valid here
+    if(username == null || username == undefined || username == ""){
+      console.log("username is not valid");
+      setErrorFeedback("Please enter a valid username");
+    
     } else {
-      console.log("no username entered did not post result to database");
-      setIsOpen(false);
+      
+      setErrorFeedback(""); // clear the error feedback
+      postResult();
+     
     }
+    
   }
 
   function handle_username(value) {
-    ///console.log(value);
     setUsername(value);
   }
 
+
   async function postResult() {
-    const app = initializeApp(firebaseConfig); // Initialize Firebase
     const db = getFirestore(app);
     const dt = DateTime.now();
     let today = dt.toLocaleString();
+    const user  = auth.currentUser;
 
-    const new_record = {
-      user_name: username,
-      score: finalScore,
-      turns_played: finalScore,
-      didWin: false,
-      game_date: today,
-    };
+    // check if the user is logged in
+    if (user != null || user != undefined){
 
-    console.log("input username: " + username);
-    console.log("input score: " + finalScore);
+      console.log(user.email)
+      console.log(user.displayName)
+      console.log("user is logged in");
 
-    const leaderboardDocRef = doc(db, "leaderboard", "data"); // get Reference to the leaderboard collection
-    const docSnap = await getDoc(leaderboardDocRef); // get the latest version of the leaderboard data
-    const leaderboardData = docSnap.data()["scores"];
-    leaderboardData.push(new_record); // add the user socre to the list of scores
-
-    // update the document in the firebase database
-    await setDoc(doc(db, "leaderboard", "data"), {
-      scores: leaderboardData,
-    })
-      .then(() => {
-        console.log("updated leaderboard db successfully");
-        //closeModal(); // close modal after submission is complete
+      const new_record = {
+        user_name: username,
+        score: finalScore,
+        turns_played: finalScore,
+        didWin: false,
+        game_date: today,
+      };
+  
+  
+      const leaderboardDocRef = doc(db, "leaderboard", "data"); // get Reference to the leaderboard collection
+      const docSnap = await getDoc(leaderboardDocRef); // get the latest version of the leaderboard data
+      const leaderboardData = docSnap.data()["scores"];
+      leaderboardData.push(new_record); // add the user socre to the list of scores
+  
+      // update the document in the firebase database
+      await setDoc(doc(db, "leaderboard", "data"), {
+        scores: leaderboardData,
       })
-      .catch((error) => {
-        console.log(error);
-      });
+        .then(() => {
+          console.log("updated leaderboard db successfully");
+          //closeModal(); // close modal after submission is complete
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+
+        closeModal(); // close modal after submission is complete
+
+    } else {
+
+
+      console.log(" cannot submit score user is not logged in");
+      setErrorFeedback("Please login with google to submit your score");
+    }
+      
   }
 
   // Add this button into the dom for testing 
@@ -108,6 +160,7 @@ export default function PostGameModal({ finalScore }) {
           <h3 className="red">GAME OVER</h3>
           <h3>You got checkmated!</h3>
           <p>You lasted {finalScore} moves.</p>
+          <p>{errorFeedback}</p>
           <form>
             <input
               type="text"
@@ -117,7 +170,8 @@ export default function PostGameModal({ finalScore }) {
                 handle_username(e.target.value);
               }}
             />
-            <button onClick={closeModal}>Submit</button>
+            <button onClick = {(e) => {signInWithGoogle(e)}}>Login With Google to submit score</button>
+            <button onClick = {(e)=>{handleSubmit(e)}}> Submit</button>
           </form>
           <small>
             By clicking Submit, you agree to our{" "}

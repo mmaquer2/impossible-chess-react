@@ -6,11 +6,21 @@ import Welcome from "./welcomeModal";
 import { VscDebugRestart } from "react-icons/vsc";
 
 class Game extends Component {
+    
+    shouldResetGame = false;
+
+    handleResetGame = (e) => {
+        e.preventDefault(); // prevent page reload 
+        this.shouldResetGame = true;
+        console.log("should reset game status: " + this.shouldResetGame)
+        
+    }
+
     render() {
         return (
             <section className="chess">
                 <div className="container">
-                    <StockFish>
+                    <StockFish gameResetStatus = {this.shouldResetGame}>
                         {({ position, onDrop, turns, history }) => (
                             <>
                                 <div className="chess__container">
@@ -23,8 +33,8 @@ class Game extends Component {
                                                 </span>
                                                 <span className="chess__rating">(3500)</span>
                                                 <div className="chess__header__turns">
-                                                    <button>
-                                                        <VscDebugRestart /> Restart Game
+                                                    <button onClick = {(e) => {this.handleResetGame(e)}}>
+                                                        <VscDebugRestart  /> Restart Game
                                                     </button>
                                                     <span className="silent">Turns: </span>
                                                     {turns}
@@ -59,7 +69,9 @@ class Game extends Component {
                         )}
                     </StockFish>
                 </div>
+                
             </section>
+            
         );
     }
 }
