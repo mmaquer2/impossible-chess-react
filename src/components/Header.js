@@ -2,6 +2,17 @@ import React, { useEffect } from "react";
 import Modal from "react-modal";
 import { MdClose } from "react-icons/md";
 import { FaTwitter } from "react-icons/fa";
+import {
+  getAuth,
+  signInWithPopup,
+  GoogleAuthProvider,
+  FacebookAuthProvider,
+  TwitterAuthProvider,
+  signOut,
+} from "firebase/auth";
+import { initializeApp } from "firebase/app";
+import { firebaseConfig } from "../api/firebase";
+
 
 const customStyles = {
   content: {
@@ -19,8 +30,20 @@ const customStyles = {
 Modal.setAppElement("#root");
 
 export default function Header({ openStatus }) {
-
   const [modalIsOpen, setIsOpen] = React.useState(false);
+  const provider = new GoogleAuthProvider();
+  const facebookProvider = new FacebookAuthProvider();
+  const twitterProvider = new TwitterAuthProvider();
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+
+  useEffect(() => {
+    if (openStatus === "open") {
+      openModal();
+    }
+  }, []);
+
   function openModal() {
     setIsOpen(true);
   }
@@ -29,11 +52,95 @@ export default function Header({ openStatus }) {
     setIsOpen(false);
   }
 
-  useEffect(() => {
-    if (openStatus === "open") {
-      openModal();
-    }
-  }, []);
+  function signInWithGoogle() {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const credential = GoogleAuthProvider.credentialFromResult(result);
+        const token = credential.accessToken;
+        const user = result.user;
+        setIsLoggedIn(true);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        const email = error.email;
+        const credential = GoogleAuthProvider.credentialFromError(error);
+      });
+  }
+
+  function signInWithTwitter() {
+    console.log("signed in with twitter")
+    /*
+    signInWithPopup(auth, twitterProvider)
+      .then((result) => {
+      // This gives you a the Twitter OAuth 1.0 Access Token and Secret.
+      // You can use these server side with your app's credentials to access the Twitter API.
+      const credential = TwitterAuthProvider.credentialFromResult(result);
+      const token = credential.accessToken;
+      const secret = credential.secret;
+
+      // The signed-in user info.
+      const user = result.user;
+      
+      setIsLoggedIn(true);
+    
+    }).catch((error) => {
+      // Handle Errors here.
+      const errorCode = error.code;
+      const errorMessage = error.message;
+      // The email of the user's account used.
+      const email = error.customData.email;
+      // The AuthCredential type that was used.
+      const credential = TwitterAuthProvider.credentialFromError(error);
+      // ...
+    });
+    */
+    
+  }
+
+  function signInWithFacebook() {
+    console.log("signed in with facebook");
+    /*
+    signInWithPopup(auth, facebookProvider)
+      .then((result) => {
+        // The signed-in user info.
+        const user = result.user;
+
+        // This gives you a Facebook Access Token. You can use it to access the Facebook API.
+        const credential = FacebookAuthProvider.credentialFromResult(result);
+        const accessToken = credential.accessToken;
+        
+        setIsLoggedIn(true);
+     
+      })
+      .catch((error) => {
+        // Handle Errors here.
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        // The email of the user's account used.
+        const email = error.customData.email;
+        // The AuthCredential type that was used.
+        const credential = FacebookAuthProvider.credentialFromError(error);
+
+        // ...
+      });
+      */
+
+    
+  }
+
+  function handleLogOut() {
+    signOut(auth)
+      .then(() => {
+        console.log("log out was successful");
+        //console.log("user after logout call: "+ auth.currentUser)
+        setIsLoggedIn(false);
+      })
+      .catch((error) => {
+        console.log("log out was not successful");
+      });
+  }
+
   return (
     <>
       <div className="header__ad">AD HERE</div>
@@ -66,24 +173,28 @@ export default function Header({ openStatus }) {
       <Modal
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
-        contentLabel="Welcome Modal"
+        contentLabel="Login Modal"
         style={customStyles}
         className="modal"
       >
         <div className="modal__container">
-          <h3>How To Play</h3>
-          <p>How long can you last against the world's hardest chess bot?</p>
-          <ul>
-            <li>You play the black pieces.</li>
-            <li>This chess bot's estimated ELO is over 3500.</li>
-            <li>You will lose quickly.</li>
-            <li>See how many turns you have made at the top right.</li>
-            <li>
-              Compete against the world leaderboard of the longest games without
-              getting checkmated.
-            </li>
-          </ul>
-          <span>Good luck.</span>
+          <h5>
+            <p>Login a social account to save your scores</p>
+          </h5>
+          <div>
+            {isLoggedIn ? (
+              <button onClick={handleLogOut}>Logout</button>
+            ) : (
+              <div>
+                <button onClick={signInWithGoogle}>Login With Google</button>
+                <button onClick={signInWithTwitter}>Login With Twitter</button>
+                <button onClick={signInWithFacebook}>
+                  Login With Facebook
+                </button>
+              </div>
+            )}
+          </div>
+
           <a className="close" onClick={closeModal}>
             <MdClose />
           </a>

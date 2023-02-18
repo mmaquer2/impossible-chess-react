@@ -32,7 +32,10 @@ export default function Footer() {
           </li>
         </ul>
         <span>
-          Copyright &copy; {new Date().getFullYear()} Impossible Chess. All Rights Reserved. Created by <a href="https://owenbick.com">Owen Bick</a> and <a href="https://mikemaquera.dev/">Mike Maquera</a>.
+          Copyright &copy; {new Date().getFullYear()} Impossible Chess. All
+          Rights Reserved. Created by{" "}
+          <a href="https://owenbick.com">Owen Bick</a> and{" "}
+          <a href="https://mikemaquera.dev/">Mike Maquera</a>.
         </span>
       </div>
     </footer>

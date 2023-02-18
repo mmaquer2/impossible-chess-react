@@ -32,7 +32,8 @@ function LeaderboardPage() {
       // sort the list by the highest turn score
       const data = docSnap.data()["scores"];
       data.sort(GetSortOrder("turns_played")).reverse();
-      setLeaderboard(data); // set leaderboard state
+    
+      setLeaderboard(topTen) // set leaderboard state
     };
 
     fetchData().catch(console.error);
@@ -47,19 +48,19 @@ function LeaderboardPage() {
         <link rel="icon" href="/favicon.ico" />
       </Helmet>
       <Header />
-      <section className='hero'>
-        <div className='container'>
+      <section className="hero">
+        <div className="container">
           <h1>Leaderboard</h1>
         </div>
       </section>
-      <section className='chess'>
-        <div className='container'>
+      <section className="chess">
+        <div className="container">
           <Leaderboard />
         </div>
       </section>
       <Footer />
     </>
-  )
+  );
 }
 
-export { LeaderboardPage }
+export { LeaderboardPage };

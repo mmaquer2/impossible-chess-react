@@ -3,7 +3,7 @@ import { getFirestore } from "@firebase/firestore";
 import { doc, getDoc } from "firebase/firestore";
 import { firebaseConfig } from "../api/firebase";
 import React, { useState, useEffect, useMemo } from "react";
-import { useTable, useSortBy, usePagination } from 'react-table';
+import { useTable, useSortBy, usePagination } from "react-table";
 import ScoreTable from "../components/Leaderboard";
 
 export default function Leaderboard() {
@@ -29,11 +29,8 @@ export default function Leaderboard() {
       console.log("leaderboard data fetched successfully");
       // sort the list by the highest turn score
       const data = docSnap.data()["scores"];
-
-      // TODO: only display the top 20 players from the leaderboard on the game page
-
-      data.sort(GetSortOrder("turns_played")).reverse();
-      setLeaderboard(data); // set leaderboard state
+      const sortedData = data.sort(GetSortOrder("turns_played")).reverse();
+      setLeaderboard(sortedData); // set leaderboard state 
     };
 
     fetchData().catch(console.error);

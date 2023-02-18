@@ -8,9 +8,7 @@ import { About } from "./pages/about";
 import { Changelog } from "./pages/changelog";
 import "./assets/scss/style.scss";
 
-const root = ReactDOM.createRoot(
-  document.getElementById("root")
-);
+const root = ReactDOM.createRoot(document.getElementById("root"));
 
 root.render(
   <BrowserRouter>
@@ -22,6 +20,5 @@ root.render(
     </Routes>
   </BrowserRouter>
 );
-
 
 registerServiceWorker();

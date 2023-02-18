@@ -11,7 +11,8 @@ body {
 a {
   text-decoration: none;
 
-  &:link[href^="https://"]:after {
+  &:link[href^="https://"]:after
+  {
     font-size: 0.75rem;
     font-weight: 500;
     line-height: 1;
@@ -297,9 +298,11 @@ button {
           }
         }
 
-        &:nth-child(odd) {}
+        &:nth-child(odd) {
+        }
 
-        &:nth-child(even) {}
+        &:nth-child(even) {
+        }
 
         &:hover {
           td {
@@ -529,7 +532,8 @@ button {
     padding: 1.5rem;
     margin-top: 1rem;
 
-    li {}
+    li {
+    }
   }
 }
 
@@ -657,7 +661,8 @@ button {
           text-decoration: none;
         }
 
-        &:link[href^="https://"]:after {
+        &:link[href^="https://"]:after
+        {
           content: "" !important;
         }
       }

@@ -51,7 +51,6 @@ class Stockfish extends Component {
     shouldReset = true;
   }
 
-
   onDrop = ({ sourceSquare, targetSquare }) => {
     try {
       // see if the move is legal
@@ -64,7 +63,7 @@ class Stockfish extends Component {
       console.log("human: " + sourceSquare + " " + targetSquare);
       let new_move = "You: " + sourceSquare + " " + targetSquare;
       let tempHistory = this.state.moveHistory;
-      tempHistory.push(new_move); // update move history and turn counter from player moves
+      tempHistory.unshift(new_move); // update move history and turn counter from player moves
       this.setState({ moveHistory: tempHistory });
 
       if (this.moveHistory.length % 2 === 0) {
@@ -112,15 +111,13 @@ class Stockfish extends Component {
     let announced_game_over;
 
     setInterval(function () {
-
-
       // TODO: handle props when the game is reset here
       //console.log(props.gameResetStatus)
 
       if (shouldReset) {
         console.log("reset function called");
 
-        // TODO: reset game state when called 
+        // TODO: reset game state when called
         /*
           //fen.reset();
           this.setState({
@@ -131,7 +128,6 @@ class Stockfish extends Component {
           });
           
         */
-
 
         shouldReset = false;
       }
@@ -219,15 +215,15 @@ class Stockfish extends Component {
           if (time && time.wtime) {
             uciCmd(
               "go " +
-              (time.depth ? "depth " + time.depth : "") +
-              " wtime " +
-              time.wtime +
-              " winc " +
-              time.winc +
-              " btime " +
-              time.btime +
-              " binc " +
-              time.binc
+                (time.depth ? "depth " + time.depth : "") +
+                " wtime " +
+                time.wtime +
+                " winc " +
+                time.winc +
+                " btime " +
+                time.btime +
+                " binc " +
+                time.binc
             );
           } else {
             uciCmd("go " + (time.depth ? "depth " + time.depth : ""));
@@ -285,7 +281,7 @@ class Stockfish extends Component {
           let new_move = "AI: " + match[1] + " " + match[2];
 
           let tempHistory = this.state.moveHistory;
-          tempHistory.push(new_move); // update move history and turn counter from player moves
+          tempHistory.unshift(new_move); // update move history and turn counter from player moves
           this.setState({ moveHistory: tempHistory });
           if (this.moveHistory.length % 2 === 0) {
             this.turnCount = this.turnCount + 1;

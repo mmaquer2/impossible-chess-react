@@ -1,7 +1,5 @@
 # Stockfish Impossible Chess
 
-#### project image
-
 ### Project Description
 
 - This is an implementation of the stockfish chess bot with chess.js along with a firebase back end to save user scores
@@ -12,8 +10,7 @@
 ```javascript
     npm install .
     npm start
-
-    npx prettier --write .
+    npx prettier --write . // optional code formatting
 ```
 
 ### Modules and Dependencies used
@@ -22,3 +19,6 @@
 - chess.js (chess game state management)
 - chessboardjsx
 - luxon (date and time management)
+- react table (data table management)
+- react router (routing management)
+
