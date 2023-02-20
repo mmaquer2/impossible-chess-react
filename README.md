@@ -21,4 +21,3 @@
 - luxon (date and time management)
 - react table (data table management)
 - react router (routing management)
-

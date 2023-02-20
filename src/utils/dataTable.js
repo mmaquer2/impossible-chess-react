@@ -30,7 +30,7 @@ export default function Leaderboard() {
       // sort the list by the highest turn score
       const data = docSnap.data()["scores"];
       const sortedData = data.sort(GetSortOrder("turns_played")).reverse();
-      setLeaderboard(sortedData); // set leaderboard state 
+      setLeaderboard(sortedData); // set leaderboard state
     };
 
     fetchData().catch(console.error);
