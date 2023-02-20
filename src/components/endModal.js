@@ -12,7 +12,6 @@ import { DateTime } from "luxon";
 import React, { useEffect } from "react";
 import Modal from "react-modal";
 import { MdClose } from "react-icons/md";
-
 import {
   FacebookShareButton,
   FacebookIcon,
@@ -107,7 +106,6 @@ export default function PostGameModal({ finalScore }) {
       setErrorFeedback(""); // clear the error feedback
       postResult();
 
-      // TODO: reset game here after submitting user score
     }
   }
 

@@ -126,6 +126,13 @@ export default function Header({ openStatus }) {
       });
       */
 
+      /*
+                <button onClick={signInWithTwitter}>Login With Twitter</button>
+                <button onClick={signInWithFacebook}>
+                  Login With Facebook
+                </button>
+      */
+
     
   }
 
@@ -187,10 +194,6 @@ export default function Header({ openStatus }) {
             ) : (
               <div>
                 <button onClick={signInWithGoogle}>Login With Google</button>
-                <button onClick={signInWithTwitter}>Login With Twitter</button>
-                <button onClick={signInWithFacebook}>
-                  Login With Facebook
-                </button>
               </div>
             )}
           </div>

@@ -8,12 +8,8 @@ const game = new Chess();
 
 let shouldReset = false;
 
-// TODO: use this as a flag to indicate that a player has been notified of a signal
-
-let playerIsNotified = false;
 
 //TODO: add ToastContainer and notify when game is in check state
-
 const notify = () =>
   toast.error("King is in Check!", {
     position: "top-right",
@@ -29,12 +25,13 @@ const notify = () =>
 class Stockfish extends Component {
   constructor(props) {
     super(props);
-    //console.log("game props reset status: " + props)
+    this.resetGame = this.resetGame.bind(this);
   }
 
+  forceReset = this.forceUpdate();
   moveHistory = [];
   turnCount = 0;
-  state = { fen: "start", turnCount: 0, moveHistory: [], isGameOver: false };
+  state = { fen: "start", turnCount: 0, moveHistory: [], isGameOver: false, resetButtonPressed: false };
 
   componentDidMount() {
     this.setState({
@@ -42,14 +39,31 @@ class Stockfish extends Component {
       turnCount: 0,
       moveHistory: [],
       isGameOver: false,
+      resetButtonPressed: false,
     });
-    this.engineGame().prepareMove();
+    this.engineGame().prepareMove(); // on mount, start the game AI makes first move
   }
 
-  // function called when the restart game button is clicked
+  
   resetGame() {
-    shouldReset = true;
+    console.log("game reset function called");
+    game.reset();
+    return new Promise((resolve) => {
+      // reset the game state
+      this.setState({
+        fen: "start",
+        turnCount: 0,
+        moveHistory: [],
+        isGameOver: false,
+        resetButtonPressed: false,
+      }); 
+      resolve();
+      // tell the Bot to make the first move after reset
+    }).then(() => this.engineGame().prepareMove()); 
+
   }
+
+
 
   onDrop = ({ sourceSquare, targetSquare }) => {
     try {
@@ -74,7 +88,7 @@ class Stockfish extends Component {
       //console.log(this.state.moveHistory); // log move history
 
       return new Promise((resolve) => {
-        this.setState({ fen: game.fen() });
+        this.setState({ fen: game.fen() }); // update the state of the game board for the player's move
         resolve();
       }).then(() => this.engineGame().prepareMove());
     } catch (error) {
@@ -91,6 +105,8 @@ class Stockfish extends Component {
       return;
     }
   };
+
+
 
   engineGame = (options) => {
     options = options || {};
@@ -111,27 +127,7 @@ class Stockfish extends Component {
     let announced_game_over;
 
     setInterval(function () {
-      // TODO: handle props when the game is reset here
-      //console.log(props.gameResetStatus)
-
-      if (shouldReset) {
-        console.log("reset function called");
-
-        // TODO: reset game state when called
-        /*
-          //fen.reset();
-          this.setState({
-            fen: "start",
-            turnCount: 0,
-            moveHistory: [],
-            isGameOver: false,
-          });
-          
-        */
-
-        shouldReset = false;
-      }
-
+     
       if (announced_game_over) {
         return;
       }
@@ -139,11 +135,11 @@ class Stockfish extends Component {
       if (game.isGameOver()) {
         announced_game_over = true;
         // note the game is over when this is reached
-      } else if (game.isCheck()) {
-        //notify();
-        console.log("king is in check");
-      }
+      } 
+      
+
     }, 500);
+
 
     function uciCmd(cmd, which) {
       (which || engine).postMessage(cmd);
@@ -287,10 +283,14 @@ class Stockfish extends Component {
             this.turnCount = this.turnCount + 1;
           }
 
-          if (game.isGameOver()) {
+          if (game.isGameOver()) { // if game is over, stop the clock
             announced_game_over = true;
-            //console.log("GAME OVER YOU LOSE"); // when the game is over open the modal to enter the username and post to the leaderboard
             this.setState({ isGameOver: true });
+          }
+
+          if(shouldReset){
+            console.log("should reset hit in engine.onmessage")
+           // this.setState({resetButtonPressed: true})
           }
 
           prepareMove();
@@ -341,13 +341,19 @@ class Stockfish extends Component {
   };
 
   render() {
-    const { fen, turnCount, moveHistory, isGameOver } = this.state; // get current version of state
+    //console.log("render called")
+    const { fen, turnCount, moveHistory, isGameOver, resetButtonPressed } = this.state; // get current version of state
+    // console.log(this.state)
+    //console.log(fen)
+    //console.log(game.ascii());
     let GameOverModal; // open game over modal when the game is complete
     if (isGameOver) {
-      GameOverModal = <PostGameModal finalScore={turnCount} />;
+      GameOverModal = <PostGameModal finalScore={turnCount} />; // if game is over, display the game over modal
     }
+
     return (
       <div>
+         <button onClick = {this.resetGame}>Reset Game Test</button>
         <span>
           {this.props.children({
             position: fen,
@@ -357,6 +363,7 @@ class Stockfish extends Component {
             gameOverStatus: isGameOver,
           })}
         </span>
+       
         {GameOverModal}
       </div>
     );
