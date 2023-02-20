@@ -6,6 +6,7 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   TwitterAuthProvider,
+  FacebookAuthProvider,
 } from "firebase/auth";
 import { firebaseConfig } from "../api/firebase";
 import { DateTime } from "luxon";

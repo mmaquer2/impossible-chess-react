@@ -35,7 +35,6 @@ class Stockfish extends Component {
     turnCount: 0,
     moveHistory: [],
     isGameOver: false,
-    resetButtonPressed: false,
   };
 
   componentDidMount() {
@@ -44,22 +43,20 @@ class Stockfish extends Component {
       turnCount: 0,
       moveHistory: [],
       isGameOver: false,
-      resetButtonPressed: false,
     });
     this.engineGame().prepareMove(); // on mount, start the game AI makes first move
   }
 
+  // Reset the game
   resetGame() {
     console.log("game reset function called");
-    game.reset();
+    game.reset(); // reset chess.js instance
     return new Promise((resolve) => {
-      // reset the game state
       this.setState({
         fen: "start",
         turnCount: 0,
         moveHistory: [],
         isGameOver: false,
-        resetButtonPressed: false,
       });
       resolve();
       // tell the Bot to make the first move after reset
@@ -292,7 +289,6 @@ class Stockfish extends Component {
           prepareMove();
           uciCmd("eval", evaler);
           //uciCmd("eval");
-          /// Is it sending feedback?
         } else if (
           (match = line.match(/^info .*\bdepth (\d+) .*\bnps (\d+)/))
         ) {
@@ -337,12 +333,7 @@ class Stockfish extends Component {
   };
 
   render() {
-    //console.log("render called")
-    const { fen, turnCount, moveHistory, isGameOver, resetButtonPressed } =
-      this.state; // get current version of state
-    // console.log(this.state)
-    //console.log(fen)
-    //console.log(game.ascii());
+    const { fen, turnCount, moveHistory, isGameOver } = this.state; // get current version of state
     let GameOverModal; // open game over modal when the game is complete
     if (isGameOver) {
       GameOverModal = <PostGameModal finalScore={turnCount} />; // if game is over, display the game over modal
@@ -350,7 +341,6 @@ class Stockfish extends Component {
 
     return (
       <div>
-        <button onClick={this.resetGame}>Reset Game Test</button>
         <span>
           {this.props.children({
             position: fen,
@@ -360,7 +350,6 @@ class Stockfish extends Component {
             gameOverStatus: isGameOver,
           })}
         </span>
-
         {GameOverModal}
       </div>
     );

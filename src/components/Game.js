@@ -6,19 +6,22 @@ import Welcome from "./welcomeModal";
 import { VscDebugRestart } from "react-icons/vsc";
 
 class Game extends Component {
-  shouldResetGame = false;
+  constructor(props) {
+    super(props);
+    this.child = React.createRef();
+  }
 
+  // reset the game state
   handleResetGame = (e) => {
     e.preventDefault(); // prevent page reload
-    this.shouldResetGame = true;
-    console.log("should reset game status: " + this.shouldResetGame);
+    this.child.current.resetGame(); // create a reference to call the reset button
   };
 
   render() {
     return (
       <section className="chess">
         <div className="container">
-          <StockFish gameResetStatus={this.shouldResetGame}>
+          <StockFish ref={this.child}>
             {({ position, onDrop, turns, history }) => (
               <>
                 <div className="chess__container">
