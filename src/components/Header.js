@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import Modal from "react-modal";
 import { MdClose } from "react-icons/md";
-import { FaTwitter } from "react-icons/fa";
+import { FaTwitter, FaGoogle, FaFacebook } from "react-icons/fa";
 import {
   getAuth,
   signInWithPopup,
@@ -123,13 +123,6 @@ export default function Header({ openStatus }) {
         // ...
       });
       */
-
-    /*
-                <button onClick={signInWithTwitter}>Login With Twitter</button>
-                <button onClick={signInWithFacebook}>
-                  Login With Facebook
-                </button>
-      */
   }
 
   function handleLogOut() {
@@ -165,11 +158,19 @@ export default function Header({ openStatus }) {
                 About
               </a>
             </li>
-            <li className="header__item">
-              <a className="header__link" onClick={setIsOpen}>
-                Login or Sign Up
-              </a>
-            </li>
+            {isLoggedIn ? (
+              <li className="header__item">
+                <a className="header__link" onClick={handleLogOut}>
+                  Logout
+                </a>
+              </li>
+            ) : (
+              <li className="header__item">
+                <a className="header__link" onClick={setIsOpen}>
+                  Login or Sign Up
+                </a>
+              </li>
+            )}
           </ul>
         </div>
       </header>
@@ -181,15 +182,21 @@ export default function Header({ openStatus }) {
         className="modal"
       >
         <div className="modal__container">
-          <h5>
-            <p>Login a social account to save your scores</p>
-          </h5>
+          <h1>Impossible Chess</h1>
+          <p>Join our community of chess players and save your score to the global leaderboard.</p>
           <div>
             {isLoggedIn ? (
               <button onClick={handleLogOut}>Logout</button>
             ) : (
               <div>
                 <button onClick={signInWithGoogle}>Login With Google</button>
+              <div className="modal__auth">
+                <button class="google" onClick={signInWithGoogle}><FaGoogle /> Login With Google</button>
+                <button class="twitter" onClick={signInWithTwitter}><FaTwitter /> Login With Twitter</button>
+                <button class="facebook" onClick={signInWithFacebook}>
+                  <FaFacebook /> Login With Facebook
+                </button>
+                <small>We'll never post to any of your accounts without your permission.</small>
               </div>
             )}
           </div>

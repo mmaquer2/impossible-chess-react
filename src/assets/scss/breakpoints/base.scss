@@ -11,8 +11,7 @@ body {
 a {
   text-decoration: none;
 
-  &:link[href^="https://"]:after
-  {
+  &:link[href^="https://"]:after {
     font-size: 0.75rem;
     font-weight: 500;
     line-height: 1;
@@ -51,6 +50,8 @@ button {
     background: #882725;
     cursor: pointer;
   }
+
+  &.google {}
 }
 
 .silent {
@@ -298,11 +299,9 @@ button {
           }
         }
 
-        &:nth-child(odd) {
-        }
+        &:nth-child(odd) {}
 
-        &:nth-child(even) {
-        }
+        &:nth-child(even) {}
 
         &:hover {
           td {
@@ -532,8 +531,7 @@ button {
     padding: 1.5rem;
     margin-top: 1rem;
 
-    li {
-    }
+    li {}
   }
 }
 
@@ -579,6 +577,7 @@ button {
     p {
       margin: 0;
       opacity: 0.75;
+      line-height: 1.5;
     }
 
     ul {
@@ -661,10 +660,33 @@ button {
           text-decoration: none;
         }
 
-        &:link[href^="https://"]:after
-        {
+        &:link[href^="https://"]:after {
           content: "" !important;
         }
+      }
+    }
+
+    .modal__auth {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0;
+      margin-top: 2rem;
+
+      button {
+        display: flex;
+        margin: .5rem auto;
+        text-align: center;
+        justify-content: center;
+        padding: .5rem 1rem;
+        max-width: 15rem;
+        width: 100%;
+      }
+
+      small {
+        text-align: center;
+        line-height: 1.5;
+        margin-top: 3rem;
       }
     }
   }
