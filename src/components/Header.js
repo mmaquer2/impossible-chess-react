@@ -13,7 +13,6 @@ import {
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from "../api/firebase";
 
-
 const customStyles = {
   content: {
     top: "45%",
@@ -69,7 +68,7 @@ export default function Header({ openStatus }) {
   }
 
   function signInWithTwitter() {
-    console.log("signed in with twitter")
+    console.log("signed in with twitter");
     /*
     signInWithPopup(auth, twitterProvider)
       .then((result) => {
@@ -95,7 +94,6 @@ export default function Header({ openStatus }) {
       // ...
     });
     */
-
   }
 
   function signInWithFacebook() {
@@ -125,8 +123,6 @@ export default function Header({ openStatus }) {
         // ...
       });
       */
-
-
   }
 
   function handleLogOut() {
@@ -192,6 +188,8 @@ export default function Header({ openStatus }) {
             {isLoggedIn ? (
               <button onClick={handleLogOut}>Logout</button>
             ) : (
+              <div>
+                <button onClick={signInWithGoogle}>Login With Google</button>
               <div className="modal__auth">
                 <button class="google" onClick={signInWithGoogle}><FaGoogle /> Login With Google</button>
                 <button class="twitter" onClick={signInWithTwitter}><FaTwitter /> Login With Twitter</button>

@@ -32,8 +32,8 @@ function LeaderboardPage() {
       // sort the list by the highest turn score
       const data = docSnap.data()["scores"];
       data.sort(GetSortOrder("turns_played")).reverse();
-    
-      setLeaderboard(topTen) // set leaderboard state
+
+      setLeaderboard(topTen); // set leaderboard state
     };
 
     fetchData().catch(console.error);

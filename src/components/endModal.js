@@ -6,13 +6,13 @@ import {
   signInWithPopup,
   GoogleAuthProvider,
   TwitterAuthProvider,
+  FacebookAuthProvider,
 } from "firebase/auth";
 import { firebaseConfig } from "../api/firebase";
 import { DateTime } from "luxon";
 import React, { useEffect } from "react";
 import Modal from "react-modal";
 import { MdClose } from "react-icons/md";
-
 import {
   FacebookShareButton,
   FacebookIcon,
@@ -59,7 +59,7 @@ export default function PostGameModal({ finalScore }) {
     e.preventDefault();
     signInWithPopup(auth, provider)
       .then((result) => {
-        console.log("login success")
+        console.log("login success");
         //const credential = GoogleAuthProvider.credentialFromResult(result);
         //const token = credential.accessToken;
         //const user = result.user;
@@ -106,8 +106,6 @@ export default function PostGameModal({ finalScore }) {
     } else {
       setErrorFeedback(""); // clear the error feedback
       postResult();
-
-      // TODO: reset game here after submitting user score
     }
   }
 
