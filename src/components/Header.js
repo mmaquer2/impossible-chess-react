@@ -166,7 +166,7 @@ export default function Header({ openStatus }) {
               </li>
             ) : (
               <li className="header__item">
-                <a className="header__link" onClick={setIsOpen}>
+                <a className="header__link" onClick={openModal}>
                   Login or Sign Up
                 </a>
               </li>
@@ -183,24 +183,26 @@ export default function Header({ openStatus }) {
       >
         <div className="modal__container">
           <h1>Impossible Chess</h1>
-          <p>Join our community of chess players and save your score to the global leaderboard.</p>
-          <div>
-            {isLoggedIn ? (
-              <button onClick={handleLogOut}>Logout</button>
-            ) : (
-              <div>
-                <button onClick={signInWithGoogle}>Login With Google</button>
-              <div className="modal__auth">
-                <button class="google" onClick={signInWithGoogle}><FaGoogle /> Login With Google</button>
-                <button class="twitter" onClick={signInWithTwitter}><FaTwitter /> Login With Twitter</button>
-                <button class="facebook" onClick={signInWithFacebook}>
-                  <FaFacebook /> Login With Facebook
-                </button>
-                <small>We'll never post to any of your accounts without your permission.</small>
-              </div>
-            )}
-          </div>
-
+          <p>
+            Join our community of chess players and save your score to the global
+            leaderboard.
+          </p>
+          {isLoggedIn ? (
+            <button onClick={handleLogOut}>Logout</button>
+          ) : (
+            <div className="modal__auth">
+              <button className="google" onClick={signInWithGoogle}>
+                <FaGoogle /> Login With Google
+              </button>
+              <button className="twitter" onClick={signInWithTwitter}>
+                <FaTwitter /> Login With Twitter
+              </button>
+              <button className="facebook" onClick={signInWithFacebook}>
+                <FaFacebook /> Login With Facebook
+              </button>
+              <small>We'll never post to any of your accounts without your permission.</small>
+            </div>
+          )}
           <a className="close" onClick={closeModal}>
             <MdClose />
           </a>
