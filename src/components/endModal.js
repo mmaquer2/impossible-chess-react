@@ -20,7 +20,7 @@ import {
   TwitterIcon,
 } from "react-share";
 
-var Filter = require("bad-words");
+const Filter = require("bad-words");
 
 const customStyles = {
   content: {

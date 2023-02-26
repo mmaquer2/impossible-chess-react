@@ -193,8 +193,8 @@ export default function Header({ openStatus }) {
         <div className="modal__container">
           <h1>Impossible Chess</h1>
           <p>
-            Join our community of chess players and save your score to the global
-            leaderboard.
+            Join our community of chess players and save your score to the
+            global leaderboard.
           </p>
           {isLoggedIn ? (
             <button onClick={handleLogOut}>Logout</button>
@@ -203,7 +203,10 @@ export default function Header({ openStatus }) {
               <button className="google" onClick={signInWithGoogle}>
                 <FaGoogle /> Login With Google
               </button>
-              <small>We'll never post to any of your accounts without your permission.</small>
+              <small>
+                We'll never post to any of your accounts without your
+                permission.
+              </small>
             </div>
           )}
           <a className="close" onClick={closeModal}>

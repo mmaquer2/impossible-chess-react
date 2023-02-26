@@ -11,7 +11,8 @@ body {
 a {
   text-decoration: none;
 
-  &:link[href^="https://"]:after {
+  &:link[href^="https://"]:after
+  {
     font-size: 0.75rem;
     font-weight: 500;
     line-height: 1;
@@ -51,7 +52,8 @@ button {
     cursor: pointer;
   }
 
-  &.google {}
+  &.google {
+  }
 }
 
 .silent {
@@ -299,9 +301,11 @@ button {
           }
         }
 
-        &:nth-child(odd) {}
+        &:nth-child(odd) {
+        }
 
-        &:nth-child(even) {}
+        &:nth-child(even) {
+        }
 
         &:hover {
           td {
@@ -531,7 +535,8 @@ button {
     padding: 1.5rem;
     margin-top: 1rem;
 
-    li {}
+    li {
+    }
   }
 }
 
@@ -660,7 +665,8 @@ button {
           text-decoration: none;
         }
 
-        &:link[href^="https://"]:after {
+        &:link[href^="https://"]:after
+        {
           content: "" !important;
         }
       }
@@ -675,10 +681,10 @@ button {
 
       button {
         display: flex;
-        margin: .5rem auto;
+        margin: 0.5rem auto;
         text-align: center;
         justify-content: center;
-        padding: .5rem 1rem;
+        padding: 0.5rem 1rem;
         max-width: 15rem;
         width: 100%;
       }
