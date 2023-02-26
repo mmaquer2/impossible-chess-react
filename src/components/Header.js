@@ -125,6 +125,15 @@ export default function Header({ openStatus }) {
       */
   }
 
+  /*
+    <button className="twitter" onClick={signInWithTwitter}>
+    <FaTwitter /> Login With Twitter
+  </button>
+  <button className="facebook" onClick={signInWithFacebook}>
+    <FaFacebook /> Login With Facebook
+  </button>
+  */
+
   function handleLogOut() {
     signOut(auth)
       .then(() => {
@@ -193,12 +202,6 @@ export default function Header({ openStatus }) {
             <div className="modal__auth">
               <button className="google" onClick={signInWithGoogle}>
                 <FaGoogle /> Login With Google
-              </button>
-              <button className="twitter" onClick={signInWithTwitter}>
-                <FaTwitter /> Login With Twitter
-              </button>
-              <button className="facebook" onClick={signInWithFacebook}>
-                <FaFacebook /> Login With Facebook
               </button>
               <small>We'll never post to any of your accounts without your permission.</small>
             </div>

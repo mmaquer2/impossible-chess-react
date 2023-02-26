@@ -3,7 +3,6 @@ import { getFirestore } from "@firebase/firestore";
 import { doc, getDoc } from "firebase/firestore";
 import { firebaseConfig } from "../api/firebase";
 import React, { useState, useEffect, useMemo } from "react";
-import { useTable, useSortBy, usePagination } from "react-table";
 import ScoreTable from "../components/Leaderboard";
 
 export default function Leaderboard() {
