@@ -22,7 +22,7 @@ function Changelog() {
           <div className="changelog__item">
             <h1>v1.0</h1>
             <time>Feb 14, 2023</time>
-            <p>🎉 We have launched ImpossibleChess.com</p>
+            <p>🎉 First Live Test of ImpossibleChess</p>
           </div>
         </div>
       </section>
