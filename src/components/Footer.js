@@ -22,14 +22,6 @@ export default function Footer() {
               Changelog
             </a>
           </li>
-          <li className="footer__list__item">
-            <a
-              href="mailto:hello@impossiblechess.com"
-              className="footer__list__a"
-            >
-              Contact
-            </a>
-          </li>
         </ul>
         <span>
           Copyright &copy; {new Date().getFullYear()} Impossible Chess. All

@@ -67,73 +67,6 @@ export default function Header({ openStatus }) {
       });
   }
 
-  function signInWithTwitter() {
-    console.log("signed in with twitter");
-    /*
-    signInWithPopup(auth, twitterProvider)
-      .then((result) => {
-      // This gives you a the Twitter OAuth 1.0 Access Token and Secret.
-      // You can use these server side with your app's credentials to access the Twitter API.
-      const credential = TwitterAuthProvider.credentialFromResult(result);
-      const token = credential.accessToken;
-      const secret = credential.secret;
-
-      // The signed-in user info.
-      const user = result.user;
-      
-      setIsLoggedIn(true);
-    
-    }).catch((error) => {
-      // Handle Errors here.
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // The email of the user's account used.
-      const email = error.customData.email;
-      // The AuthCredential type that was used.
-      const credential = TwitterAuthProvider.credentialFromError(error);
-      // ...
-    });
-    */
-  }
-
-  function signInWithFacebook() {
-    console.log("signed in with facebook");
-    /*
-    signInWithPopup(auth, facebookProvider)
-      .then((result) => {
-        // The signed-in user info.
-        const user = result.user;
-
-        // This gives you a Facebook Access Token. You can use it to access the Facebook API.
-        const credential = FacebookAuthProvider.credentialFromResult(result);
-        const accessToken = credential.accessToken;
-        
-        setIsLoggedIn(true);
-     
-      })
-      .catch((error) => {
-        // Handle Errors here.
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        // The email of the user's account used.
-        const email = error.customData.email;
-        // The AuthCredential type that was used.
-        const credential = FacebookAuthProvider.credentialFromError(error);
-
-        // ...
-      });
-      */
-  }
-
-  /*
-    <button className="twitter" onClick={signInWithTwitter}>
-    <FaTwitter /> Login With Twitter
-  </button>
-  <button className="facebook" onClick={signInWithFacebook}>
-    <FaFacebook /> Login With Facebook
-  </button>
-  */
-
   function handleLogOut() {
     signOut(auth)
       .then(() => {
@@ -167,19 +100,6 @@ export default function Header({ openStatus }) {
                 About
               </a>
             </li>
-            {isLoggedIn ? (
-              <li className="header__item">
-                <a className="header__link" onClick={handleLogOut}>
-                  Logout
-                </a>
-              </li>
-            ) : (
-              <li className="header__item">
-                <a className="header__link" onClick={openModal}>
-                  Login or Sign Up
-                </a>
-              </li>
-            )}
           </ul>
         </div>
       </header>

@@ -5,8 +5,6 @@ import {
   getAuth,
   signInWithPopup,
   GoogleAuthProvider,
-  TwitterAuthProvider,
-  FacebookAuthProvider,
 } from "firebase/auth";
 import { firebaseConfig } from "../api/firebase";
 import { DateTime } from "luxon";
@@ -78,10 +76,6 @@ export default function PostGameModal({ finalScore }) {
       });
   }
 
-  function signInWithTwitter() {}
-
-  function signInWithFacebook() {}
-
   function openModal() {
     setIsOpen(true);
   }
@@ -149,6 +143,8 @@ export default function PostGameModal({ finalScore }) {
         .catch((error) => {
           console.log(error);
         });
+
+      // TODO: post snackbar saying post was successful for score submission
 
       closeModal(); // close modal after submission is complete
     } else {
