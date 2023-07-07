@@ -208,18 +208,7 @@ export default function PostGameModal({ finalScore }) {
               </button>
             )}
 
-            <FacebookShareButton
-              url={"impossiblechess.com"}
-              quote={"Impossible Chess"}
-              hashtag="#chess"
-            >
-              <FacebookIcon size={42} round />
-            </FacebookShareButton>
-            <TwitterShareButton
-              url={"impossiblechess.com #chess #impossiblechess"}
-            >
-              <TwitterIcon size={42} round />
-            </TwitterShareButton>
+        
           </div>
           <a className="close" onClick={closeModal}>
             <MdClose />
