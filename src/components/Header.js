@@ -11,7 +11,7 @@ import {
   signOut,
 } from "firebase/auth";
 import { initializeApp } from "firebase/app";
-import { firebaseConfig } from "../api/firebase";
+import { app, db } from "../firebase";
 
 const customStyles = {
   content: {
@@ -33,7 +33,7 @@ export default function Header({ openStatus }) {
   const provider = new GoogleAuthProvider();
   const facebookProvider = new FacebookAuthProvider();
   const twitterProvider = new TwitterAuthProvider();
-  const app = initializeApp(firebaseConfig);
+
   const auth = getAuth(app);
   const [isLoggedIn, setIsLoggedIn] = React.useState(false);
 

@@ -1,7 +1,7 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "@firebase/firestore";
 import { doc, getDoc } from "firebase/firestore";
-import { firebaseConfig } from "../api/firebase";
+import { app, db } from "../firebase";
 import { useState, useEffect } from "react";
 import Leaderboard from "../utils/dataTable";
 import Header from "../components/Header";
@@ -23,8 +23,8 @@ function LeaderboardPage() {
   }
 
   useEffect(() => {
-    const app = initializeApp(firebaseConfig); // Initialize Firebase
-    const db = getFirestore(app);
+    console.log("fetching leaderboard data");
+
     const fetchData = async () => {
       const leaderboardDocRef = doc(db, "leaderboard", "data"); // get Reference to the leaderboard collection
       const docSnap = await getDoc(leaderboardDocRef); // get the leaderboard data

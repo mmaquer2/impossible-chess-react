@@ -1,12 +1,7 @@
-import { initializeApp } from "firebase/app";
 import { getFirestore } from "@firebase/firestore";
 import { doc, setDoc, getDoc } from "firebase/firestore";
-import {
-  getAuth,
-  signInWithPopup,
-  GoogleAuthProvider,
-} from "firebase/auth";
-import { firebaseConfig } from "../api/firebase";
+import { getAuth, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
+import { app, db } from "../firebase";
 import { DateTime } from "luxon";
 import React, { useEffect } from "react";
 import Modal from "react-modal";
@@ -40,7 +35,6 @@ export default function PostGameModal({ finalScore }) {
   const [errorFeedback, setErrorFeedback] = React.useState("");
   const [isUserLoggedIn, setIsUserLoggedIn] = React.useState(false);
 
-  const app = initializeApp(firebaseConfig);
   const provider = new GoogleAuthProvider();
   const auth = getAuth(app);
 
@@ -207,8 +201,6 @@ export default function PostGameModal({ finalScore }) {
                 Login With Google
               </button>
             )}
-
-        
           </div>
           <a className="close" onClick={closeModal}>
             <MdClose />
